@@ -1,0 +1,44 @@
+name: Autograde
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  cham-diem:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tuan: [week1, week2, week3, week4, week5, week6, final]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cai dat cong cu
+        run: pip install nbclient nbformat ipykernel
+
+      - name: Kiem tra co notebook khong
+        id: check
+        run: |
+          if [ -f "${{ matrix.tuan }}"/*.ipynb ] 2>/dev/null || ls "${{ matrix.tuan }}"/*.ipynb >/dev/null 2>&1; then
+            echo "co=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "co=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Cham diem ${{ matrix.tuan }}
+        if: steps.check.outputs.co == '1'
+        env:
+          AUTOGRADE: "1"
+        run: |
+          for nb in "${{ matrix.tuan }}"/*.ipynb; do
+            echo "=== Cham $nb ==="
+            jupyter nbconvert --to notebook --execute "$nb" \
+              --output "/tmp/$(basename "$nb")" \
+              --ExecutePreprocessor.timeout=180
+          done
