@@ -110,6 +110,25 @@ print(gia_tri_tho + "5")     # nối chuỗi -> "105"
 print(int(gia_tri_tho) + 5)  # ép kiểu rồi cộng -> 15
 
 # %% [markdown]
+# Tính chất ép kiểu, giữ nguyên cho mọi bài sau có ép kiểu:
+#
+# 1. `int()` và `float()` chỉ ép được chuỗi đúng dạng số. `int("10")` được vì toàn
+#    chữ số, `float("10.5")` được vì có đúng một dấu chấm.
+# 2. `int("10.5")` ném `ValueError: invalid literal for int() with base 10: '10.5'`
+#    vì `int()` không tự đọc dấu chấm. Muốn cắt một chuỗi có dấu chấm về số nguyên,
+#    phải ép sang `float()` trước rồi mới `int()`.
+# 3. `int(10.9)` cắt bỏ phần thập phân, ra `10`. Đây không phải làm tròn —
+#    `round(10.9)` mới ra `11`.
+# 4. `int("10") + int("5")` và `int("10" + "5")` là hai phép tính khác nhau: một
+#    cộng hai số đã ép, một nối hai chuỗi rồi mới ép — ra `15` so với `105`.
+
+# %%
+print(int("10"), float("10.5"))    # ep duoc vi dung dang so: 10 10.5
+print(int(10.9))                   # cat bo phan thap phan, khong lam tron: 10
+print(int("10") + int("5"))        # cong hai so da ep: 15
+print(int("10" + "5"))             # noi chuoi truoc roi moi ep: 105
+
+# %% [markdown]
 # ### Bài tập 1.1 — Điểm trung bình
 #
 # Có hai bộ điểm ba môn Toán, Lý, Hoá. Với mỗi bộ, gán biến `diem_tb_*` bằng trung
@@ -165,6 +184,23 @@ phut_vd = (tong_giay % 3600) // 60
 giay_vd = tong_giay % 60
 
 print(f"Thoi gian chay: {gio_vd} gio {phut_vd} phut {giay_vd} giay")
+
+# %% [markdown]
+# Tính chất của `//` và `%` khi `a`, `b` là số nguyên dương:
+#
+# 1. `a == (a // b) * b + a % b` luôn đúng — đây là công thức chia có dư, `//` cho
+#    thương, `%` cho số dư.
+# 2. `a % b` luôn nằm trong khoảng từ `0` đến `b - 1`. Dùng để bắt phần dư sau khi
+#    chia hết cho một chu kỳ, ví dụ `gio % 24` luôn ra giờ trong ngày, từ 0 đến 23.
+# 3. `//` giữa hai `int` cho `int`; có một toán hạng là `float` thì kết quả là
+#    `float`: `7.0 // 2` ra `3.0`, không phải `3`.
+# 4. Với số âm, `//` làm tròn về phía âm vô cực, không phải về 0: `-7 // 2` ra `-4`.
+
+# %%
+a, b = 17, 5
+print(a // b, a % b, (a // b) * b + a % b)   # 3 2 17 -> cong thuc dung
+print(7.0 // 2)                               # 3.0 - float vi co toan hang float
+print(-7 // 2)                                # -4 - lam tron ve am vo cuc
 
 # %% [markdown]
 # `round(gia_tri, so_chu_so)` làm tròn *giá trị* của một số. Định dạng `{x:.2f}`
