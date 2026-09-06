@@ -1,8 +1,6 @@
 # AI Course v2 — BK-AUTO
 
-Khóa học Python/AI 6 tuần dành cho newbies mảng AI for Automobile/BK-Auto. Học trên Google Colab, chạy ô kiểm tra là biết đúng/sai ngay.
-
-## Lộ trình
+Khóa học Python/AI 6 tuần dành cho newbies mảng AI for Automobile/BK-Auto.
 
 | Tuần | Chủ đề | Mở trên Colab |
 |---|---|---|
@@ -16,14 +14,14 @@ Khóa học Python/AI 6 tuần dành cho newbies mảng AI for Automobile/BK-Aut
 
 ## Cách học
 
-Mỗi notebook tự đứng được, không cần buổi giảng mới hiểu bài: đọc lý thuyết, chạy ví dụ, làm bài tập, bấm ô kiểm tra là biết ngay đúng hay sai. Buổi gặp mentor (nếu có) chỉ dùng để chữa chỗ còn vướng.
+Đọc lý thuyết, làm bài, chạy ô kiểm tra để biết đúng/sai ngay. Mentor (nếu có) chỉ gỡ chỗ vướng.
 
 ## Nộp bài
 
 1. Mở notebook bằng badge phía trên (yêu cầu đăng nhập Google).
 2. Làm bài, chạy hết các ô kiểm tra cho đến khi đạt.
 3. `File → Save a copy in GitHub`, chọn repo cá nhân của bạn (được cấp qua GitHub Classroom), commit vào đúng thư mục tuần.
-4. Repo tự động chấm lại qua GitHub Actions — xem kết quả ở tab **Actions**.
+4. Repo tự chấm lại, kết quả ở tab Actions.
 
 ## Cấu trúc repo
 
@@ -32,7 +30,6 @@ final/ đề thi cuối khóa
 tests/ bộ máy chấm dùng chung (runner.py) + test case từng tuần
 src/ mã nguồn dạng .py (jupytext) dùng để sinh lại notebook khi cần sửa
 docs/ tài liệu nội bộ cho người chỉnh sửa nội dung (kế hoạch, quy tắc biên soạn)
-
 
 ## Dành cho người chỉnh sửa nội dung
 
