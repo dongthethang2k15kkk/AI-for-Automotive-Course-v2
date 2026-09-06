@@ -18,8 +18,6 @@
 # 1. Đóng gói code thành hàm, hiểu phạm vi biến (scope) và tham số mặc định.
 # 2. Duyệt và lọc dữ liệu bằng `for` / `while`, dùng đúng `break` / `continue`.
 # 3. Thao tác thành thạo `list`, `dict`, `set` — ba cấu trúc dữ liệu dùng nhiều nhất.
-#
-# Thời lượng ước tính: 3–4 giờ tự học.
 
 # %%
 # Ô thiết lập - chạy đầu tiên, mỗi lần mở notebook.
@@ -27,7 +25,7 @@ import os
 import sys
 import urllib.request
 
-REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-Course-v2/main"
+REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automotive-Course-v2/main"
 
 if not os.path.isdir("tests"):
     os.makedirs("tests", exist_ok=True)
@@ -57,10 +55,9 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # ---
 # ## Bài 1 — Hàm (Functions) và phạm vi biến (Scope)
 #
-# ### Lý thuyết
-#
 # Hàm là một khối code có tên, nhận đầu vào (tham số), trả về đầu ra (`return`), và
-# có thể gọi lại nhiều lần. Đây là công cụ số một để tránh lặp code.
+# có thể gọi lại nhiều lần mà không phải chép lại cùng một đoạn code ở nhiều chỗ —
+# đúng vấn đề mà tuần 1 gặp phải khi viết bốn khối `if/elif/else` gần giống hệt nhau.
 #
 # ```python
 # def ten_ham(tham_so_1, tham_so_2=gia_tri_mac_dinh):
@@ -92,7 +89,7 @@ print(tinh_goc_danh_lai(do_lech_lan=-5))  # gọi bằng keyword argument
 # **1. Tưởng biến trong hàm ảnh hưởng ra ngoài.** Biến cục bộ chết theo hàm, không
 # tự động cập nhật ra ngoài.
 #
-# **2. Bẫy kinh điển: tham số mặc định là list/dict.** Đừng bao giờ viết
+# **2. Tham số mặc định là list/dict.** Đừng bao giờ viết
 # `def them(item, ds=[])`. Giá trị mặc định chỉ được tạo **một lần duy nhất** lúc
 # định nghĩa hàm, nên mọi lần gọi hàm mà không truyền `ds` sẽ **dùng chung một list**,
 # gây lỗi rất khó phát hiện. Cách đúng: dùng `None` làm mặc định, rồi tạo list mới
@@ -157,17 +154,16 @@ kiem_tra_1_2(nhan_sat_thuong)
 # ---
 # ## Bài 2 — Chuỗi tuần tự (Sequences) và vòng lặp
 #
-# ### Lý thuyết
+# `ds[i]` truy cập theo chỉ số, bắt đầu từ 0. Chỉ số âm đếm từ cuối lên: `ds[-1]`
+# là phần tử cuối, `ds[-2]` là phần tử áp chót. `ds[start:stop:step]` cắt lát;
+# `ds[-3:]` là ba phần tử cuối, `ds[::-1]` đảo ngược toàn bộ list. `.append()` thêm
+# cuối, `.pop()` lấy ra và xoá phần tử cuối, `.remove(x)` xoá theo giá trị.
 #
-# **List:** `ds[i]` truy cập theo chỉ số (bắt đầu từ 0), `ds[start:stop:step]` cắt
-# lát. `.append()` thêm cuối, `.pop()` lấy ra và xoá phần tử cuối, `.remove(x)` xoá
-# theo giá trị.
+# `for` duyệt qua từng phần tử của một list/string/`range()`. `while` lặp theo
+# điều kiện, phải tự cập nhật biến điều kiện để tránh lặp vô hạn.
 #
-# **`for`** duyệt qua từng phần tử của một list/string/`range()`. **`while`** lặp
-# theo điều kiện, phải tự cập nhật biến điều kiện để tránh lặp vô hạn.
-#
-# **`break`** thoát hẳn vòng lặp. **`continue`** bỏ qua phần còn lại của lượt lặp
-# hiện tại, nhảy sang lượt tiếp theo.
+# `break` thoát hẳn vòng lặp. `continue` bỏ qua phần còn lại của lượt lặp hiện
+# tại, nhảy sang lượt tiếp theo.
 
 # %%
 lidar_readings = [5.2, 3.1, 0.8, 4.5, 1.2, 0.3]
@@ -179,6 +175,9 @@ for khoang_cach in lidar_readings:
         canh_bao.append(khoang_cach)
 
 print("Cac khoang cach can chu y:", canh_bao)
+print("Gia tri cuoi:", lidar_readings[-1])
+print("Ba gia tri cuoi:", lidar_readings[-3:])
+print("Dao nguoc thu tu:", lidar_readings[::-1])
 
 # %% [markdown]
 # ### Lỗi thường gặp
@@ -191,12 +190,12 @@ print("Cac khoang cach can chu y:", canh_bao)
 # hãy tạo list mới (như ví dụ trên) thay vì sửa list gốc khi đang duyệt.
 #
 # **3. Vòng `while` quên cập nhật điều kiện** → lặp vô hạn, Colab bị treo (bấm nút
-# dừng ⏹ để ngắt).
+# dừng để ngắt).
 #
-# ### Cách viết chuẩn
+# ### List comprehension
 #
-# List comprehension thay cho vòng `for` + `append()` khi logic đơn giản, ngắn gọn
-# và chạy nhanh hơn.
+# Khi logic bên trong vòng `for` chỉ là "lọc và giữ lại", list comprehension viết
+# gọn cả vòng lặp lẫn `.append()` vào một dòng.
 
 # %%
 # Cách viết dài
@@ -211,17 +210,24 @@ ket_qua_gon = [x for x in lidar_readings if x < 1.0]
 print(ket_qua_dai == ket_qua_gon, ket_qua_gon)
 
 # %% [markdown]
+# Mỗi ký tự có một mã số theo bảng ASCII. `ord(c)` trả về mã số của ký tự `c`,
+# `chr(n)` làm ngược lại — trả về ký tự ứng với mã số `n`. `c.isalpha()` kiểm tra
+# `c` có phải chữ cái, `c.isupper()` kiểm tra `c` có phải chữ hoa.
+
+# %%
+print(ord("a"), ord("A"))       # 97 65
+print(chr(98), chr(66))         # 'b' 'B'
+print("A".isalpha(), "5".isalpha())   # True False
+print("A".isupper(), "a".isupper())   # True False
+
+# %% [markdown]
 # ### Bài tập 2.1 — Mã hoá Caesar
 #
-# Viết hàm `ma_hoa_caesar(van_ban, dich_chuyen)`: dịch mỗi **chữ cái** trong
-# `van_ban` đi `dich_chuyen` vị trí trong bảng chữ cái (vòng lại từ đầu nếu vượt
-# quá `z`/`Z`). Giữ nguyên hoa/thường, giữ nguyên số và ký tự khác (dấu câu,
-# khoảng trắng).
+# Viết hàm `ma_hoa_caesar(van_ban, dich_chuyen)`: dịch mỗi chữ cái trong `van_ban`
+# đi `dich_chuyen` vị trí trong bảng chữ cái, vòng lại từ đầu nếu vượt quá `z`/`Z`.
+# Giữ nguyên hoa/thường, giữ nguyên số và ký tự khác (dấu câu, khoảng trắng).
 #
-# Ví dụ: `ma_hoa_caesar("Hello, World!", 3)` → `"Khoor, Zruog!"`
-#
-# Gợi ý: `ord(c)` cho mã ASCII của ký tự, `chr(n)` cho ký tự tương ứng mã ASCII `n`.
-# `c.isalpha()`, `c.isupper()` giúp kiểm tra loại ký tự.
+# Ví dụ: `ma_hoa_caesar("Hello, World!", 3)` → `"Khoor, Zruog!"`.
 
 # %%
 def ma_hoa_caesar(van_ban, dich_chuyen):
@@ -251,16 +257,14 @@ kiem_tra_2_2(loc_vat_can_gan)
 # ---
 # ## Bài 3 — Dictionary, Set & Dự án 1
 #
-# ### Lý thuyết
+# Dictionary lưu theo cặp khóa-giá trị: `config["khoa"]`. Duyệt bằng `.keys()`,
+# `.values()`, `.items()`. `.get(khoa, mac_dinh)` tránh lỗi `KeyError` khi khóa có
+# thể không tồn tại. `.update(dict_khac)` gộp thêm/ghi đè.
 #
-# **Dictionary** lưu theo cặp khóa-giá trị: `config["khoa"]`. Duyệt bằng
-# `.keys()`, `.values()`, `.items()`. `.get(khoa, mac_dinh)` tránh lỗi
-# `KeyError` khi khóa có thể không tồn tại. `.update(dict_khac)` gộp thêm/ghi đè.
+# Set là tập hợp không trùng lặp, không có thứ tự. Phép toán: `|` (hợp), `&`
+# (giao), `-` (hiệu), và `.issubset()` kiểm tra tập con.
 #
-# **Set** là tập hợp không trùng lặp, không có thứ tự. Phép toán: `|` (hợp),
-# `&` (giao), `-` (hiệu), và `.issubset()` kiểm tra tập con.
-#
-# Lưu ý: `{}` là dict rỗng, **không phải** set rỗng. Set rỗng phải viết `set()`.
+# `{}` là dict rỗng, không phải set rỗng — set rỗng phải viết `set()`.
 
 # %%
 vehicle_config = {
@@ -289,10 +293,10 @@ print("Cam bien con thieu:", cam_bien_yeu_cau - cam_bien_dang_bat)
 # tự mà vẫn loại trùng lặp, phải tự viết logic (xem bài tập 3.1), không thể chỉ
 # `list(set(ds))`.
 #
-# ### Cách viết chuẩn
+# ### Dict và set comprehension
 #
-# Dict/set comprehension khi cần tạo dict/set mới từ một list, tương tự list
-# comprehension.
+# Cùng cú pháp với list comprehension ở Bài 2, chỉ đổi ngoặc vuông thành ngoặc
+# nhọn, dùng khi cần tạo dict/set mới từ một list có sẵn.
 
 # %%
 diem_so = [8, 9, 10, 7]
@@ -370,8 +374,8 @@ kiem_tra_3_3(kiem_tra_quyen_truy_cap)
 # }
 # ```
 #
-# Đây là bài đầu tiên bạn **tái sử dụng** chính các hàm mình đã viết ở trên — thói
-# quen quan trọng nhất của lập trình: viết một lần, tái sử dụng nhiều lần.
+# Đây là bài đầu tiên bạn gọi lại chính các hàm mình đã viết ở trên, thay vì chép
+# lại logic đã có.
 
 # %%
 def quan_ly_cau_hinh(config_mac_dinh, config_tuy_chinh, quyen_nguoi_dung, quyen_yeu_cau):

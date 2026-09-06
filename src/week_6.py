@@ -20,8 +20,6 @@
 # 3. Hiểu Quy hoạch động (Dynamic Programming) qua kỹ thuật Memoization.
 #
 # Đây là tuần cuối phần kiến thức — sau tuần này là ôn tập và thi cuối khoá.
-#
-# Thời lượng ước tính: 3–4 giờ tự học.
 
 # %%
 # Ô thiết lập - chạy đầu tiên, mỗi lần mở notebook.
@@ -29,7 +27,7 @@ import os
 import sys
 import urllib.request
 
-REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-Course-v2/main"
+REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automotive-Course-v2/main"
 
 if not os.path.isdir("tests"):
     os.makedirs("tests", exist_ok=True)
@@ -50,21 +48,18 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # ---
 # ## Bài 1 — Cấu trúc Cây (Trees)
 #
-# ### Lý thuyết
+# Cây là cấu trúc dữ liệu phân cấp: một Gốc (Root) ở trên cùng, mỗi Nút (Node) có
+# thể có các Nút con, nút không có con gọi là Lá (Leaf).
 #
-# Cây là cấu trúc dữ liệu **phân cấp**: một **Gốc (Root)** ở trên cùng, mỗi
-# **Nút (Node)** có thể có các **Nút con**, nút không có con gọi là **Lá (Leaf)**.
+# Cây nhị phân (Binary Tree): mỗi nút có tối đa 2 nút con, trái và phải.
 #
-# **Cây nhị phân (Binary Tree):** mỗi nút có tối đa 2 nút con — trái và phải.
+# Cây tìm kiếm nhị phân (BST) thêm một quy tắc sắp xếp: với mọi nút, toàn bộ nút
+# bên trái nhỏ hơn nó, toàn bộ nút bên phải lớn hơn hoặc bằng nó. Nhờ quy tắc này,
+# tìm kiếm trên BST cân đối chỉ mất `O(log n)`, giống Tìm kiếm nhị phân tuần trước.
 #
-# **Cây tìm kiếm nhị phân (BST):** thêm một quy tắc sắp xếp — với mọi nút, **toàn
-# bộ nút bên trái nhỏ hơn nó, toàn bộ nút bên phải lớn hơn hoặc bằng nó**. Nhờ quy
-# tắc này, tìm kiếm trên BST cân đối chỉ mất `O(log n)`, giống Tìm kiếm nhị phân
-# tuần trước.
-#
-# **Duyệt cây (Traversal):** In-order (trái → gốc → phải), Pre-order (gốc → trái →
+# Duyệt cây (Traversal): In-order (trái → gốc → phải), Pre-order (gốc → trái →
 # phải), Post-order (trái → phải → gốc). Bài tập tuần này chỉ cần rẽ trái liên tục
-# để tìm giá trị nhỏ nhất — không cần duyệt hết cây.
+# để tìm giá trị nhỏ nhất, không cần duyệt hết cây.
 
 # %%
 class NutQuyetDinh:
@@ -135,16 +130,14 @@ kiem_tra_1_1(NutBST, chen_bst, tim_nho_nhat)
 # ---
 # ## Bài 2 — Đồ thị (Graphs) và Quy hoạch động
 #
-# ### Lý thuyết
+# Đồ thị là mạng lưới các Đỉnh (Vertices) nối nhau qua Cạnh (Edges). Có hướng (chỉ
+# đi được 1 chiều) hoặc vô hướng, có trọng số hoặc không.
 #
-# **Đồ thị** là mạng lưới các **Đỉnh (Vertices)** nối nhau qua **Cạnh (Edges)**.
-# Có hướng (chỉ đi được 1 chiều) hoặc vô hướng, có trọng số hoặc không.
+# Danh sách kề (Adjacency List) là cách biểu diễn phổ biến nhất, bằng `dict`: khoá
+# là tên đỉnh, giá trị là list các đỉnh liền kề.
 #
-# **Danh sách kề (Adjacency List)** — cách biểu diễn phổ biến nhất bằng `dict`:
-# khoá là tên đỉnh, giá trị là list các đỉnh liền kề.
-#
-# **Quy hoạch động (DP)** tối ưu các bài toán có **bài toán con lặp lại**, bằng
-# cách lưu lại (Memoization) kết quả đã tính, tránh tính lại nhiều lần.
+# Quy hoạch động (DP) tối ưu các bài toán có bài toán con lặp lại, bằng cách lưu
+# lại (Memoization) kết quả đã tính để khỏi tính lại nhiều lần.
 
 # %%
 mang_luoi_duong = {
@@ -248,13 +241,13 @@ print(f"Co memoization: {time.perf_counter() - bat_dau:.5f} giay")
 
 # %% [markdown]
 # ---
-# ## Bài 3 — Tổng kết khoá học & Chinh phục chứng chỉ
+# ## Bài 3 — Tổng kết khoá học
 #
-# Chúc mừng bạn đã đi hết 6 tuần: từ biến cơ bản → cấu trúc điều khiển → lập
-# trình hướng đối tượng → cấu trúc dữ liệu & thuật toán.
+# Sáu tuần đã đi qua: biến cơ bản, cấu trúc điều khiển, lập trình hướng đối
+# tượng, cấu trúc dữ liệu và thuật toán.
 #
-# Trước khi thi, nên ôn lại 5 Dự án cấp chứng chỉ đã làm ở các tuần trước — đây
-# chính là những bài thể hiện rõ nhất năng lực thực chiến của bạn:
+# Trước khi thi, ôn lại 5 Dự án cấp chứng chỉ đã làm ở các tuần trước — mỗi dự án
+# ghép nhiều bài tập nhỏ trong tuần lại thành một hệ thống hoàn chỉnh:
 #
 # | Tuần | Dự án |
 # |---|---|

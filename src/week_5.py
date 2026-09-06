@@ -18,8 +18,6 @@
 # 1. Hiểu Big O ở mức đủ dùng: vì sao có thuật toán nhanh hơn thuật toán khác.
 # 2. Viết được hàm đệ quy đúng (có điều kiện dừng + bước thu hẹp bài toán).
 # 3. Cài đặt Tìm kiếm nhị phân, Merge Sort, và tự xây một Bảng băm từ đầu.
-#
-# Thời lượng ước tính: 4–5 giờ tự học — tuần nặng nhất của khoá.
 
 # %%
 # Ô thiết lập - chạy đầu tiên, mỗi lần mở notebook.
@@ -27,7 +25,7 @@ import os
 import sys
 import urllib.request
 
-REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-Course-v2/main"
+REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automotive-Course-v2/main"
 
 if not os.path.isdir("tests"):
     os.makedirs("tests", exist_ok=True)
@@ -48,13 +46,11 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # ---
 # ## Bài 1 — Phân tích thuật toán & Đệ quy
 #
-# ### Lý thuyết
+# Big O đo tốc độ tăng của thời gian chạy khi dữ liệu đầu vào tăng lên, không phải
+# thời gian chạy tuyệt đối. Từ nhanh đến chậm: `O(1)` (hằng số) < `O(log n)` (chia
+# đôi) < `O(n)` (duyệt hết) < `O(n²)` (duyệt lồng nhau).
 #
-# **Big O** đo tốc độ tăng của thời gian chạy khi dữ liệu đầu vào tăng lên, không
-# phải thời gian chạy tuyệt đối. Từ nhanh đến chậm: `O(1)` (hằng số) < `O(log n)`
-# (chia đôi) < `O(n)` (duyệt hết) < `O(n²)` (duyệt lồng nhau).
-#
-# **Đệ quy** là một hàm tự gọi lại chính nó. Bắt buộc phải có 2 phần:
+# Đệ quy là một hàm tự gọi lại chính nó. Bắt buộc phải có 2 phần:
 #
 # 1. **Điều kiện dừng (Base Case)** — không có nó, hàm gọi vô hạn, tràn bộ nhớ
 #    (`RecursionError`).
@@ -90,15 +86,15 @@ dem_nguoc_khoi_dong(3)
 #
 # ### Bài tập 1.1 — Tháp Hà Nội (Dự án cấp chứng chỉ 5)
 #
-# Bài toán kinh điển: chuyển `so_dia` cái đĩa từ cột `cot_nguon` sang cột
-# `cot_dich`, dùng `cot_trung_gian` làm trung chuyển. Quy tắc: chỉ chuyển 1 đĩa
-# mỗi lần, không được đặt đĩa to lên đĩa nhỏ.
+# Chuyển `so_dia` cái đĩa từ cột `cot_nguon` sang cột `cot_dich`, dùng
+# `cot_trung_gian` làm trung chuyển. Quy tắc: chỉ chuyển 1 đĩa mỗi lần, không được
+# đặt đĩa to lên đĩa nhỏ.
 #
 # Viết hàm `thap_ha_noi(so_dia, cot_nguon="A", cot_dich="C", cot_trung_gian="B")`
 # trả về một **list các bước di chuyển**, mỗi bước là `tuple (cot_nguon, cot_dich)`
 # của riêng bước đó.
 #
-# **Chiến lược đệ quy chuẩn** (bắt buộc theo đúng thứ tự này để kết quả khớp):
+# Đệ quy theo đúng thứ tự sau (đổi thứ tự thì kết quả không khớp mẫu bên dưới):
 #
 # 1. Chuyển `so_dia - 1` đĩa từ `cot_nguon` sang `cot_trung_gian` (dùng `cot_dich`
 #    làm trung chuyển cho bước con này).
@@ -123,16 +119,14 @@ kiem_tra_1_1(thap_ha_noi)
 # ---
 # ## Bài 2 — Thuật toán Sắp xếp và Tìm kiếm
 #
-# ### Lý thuyết
+# Tìm kiếm tuyến tính: duyệt từng phần tử, `O(n)`.
 #
-# **Tìm kiếm tuyến tính:** duyệt từng phần tử — `O(n)`.
+# Tìm kiếm nhị phân: chỉ áp dụng được trên mảng đã sắp xếp. Mỗi bước loại bỏ một
+# nửa mảng còn lại, `O(log n)`, nhanh hơn hẳn tìm kiếm tuyến tính khi dữ liệu lớn.
 #
-# **Tìm kiếm nhị phân:** chỉ áp dụng được trên mảng **đã sắp xếp**. Mỗi bước loại
-# bỏ một nửa mảng còn lại — `O(log n)`, cực nhanh với dữ liệu lớn.
-#
-# **Merge Sort:** chia mảng làm đôi, đệ quy sắp xếp từng nửa, rồi **trộn**
-# (merge) hai nửa đã sắp xếp lại thành một mảng sắp xếp hoàn chỉnh — `O(n log n)`.
-# Nhanh hơn nhiều so với Bubble Sort (`O(n²)`) khi dữ liệu lớn.
+# Merge Sort: chia mảng làm đôi, đệ quy sắp xếp từng nửa, rồi trộn (merge) hai
+# nửa đã sắp xếp lại thành một mảng sắp xếp hoàn chỉnh, `O(n log n)`. Nhanh hơn
+# Bubble Sort (`O(n²)`) khi dữ liệu lớn.
 
 # %%
 def binary_search_log_vi_du(log_timestamps, target_time):
@@ -193,6 +187,17 @@ def sap_xep_vat_can(danh_sach):
 kiem_tra_2_1(sap_xep_vat_can)
 
 # %% [markdown]
+# Bây giờ đã tự tay viết Merge Sort, bạn hiểu vì sao `O(n log n)` nhanh hơn
+# `O(n²)`. Trong công việc thực tế không cần viết lại thuật toán sắp xếp — Python
+# có sẵn `sorted(ds)` (trả về list mới) và `ds.sort()` (sắp xếp ngay trên `ds`),
+# cả hai đều chạy `O(n log n)`. Truyền thêm `key=...` để sắp theo một tiêu chí
+# khác thay vì so sánh trực tiếp giá trị phần tử.
+
+# %%
+vat_can_tho = [{"ten": "coc", "khoang_cach": 5.2}, {"ten": "xe", "khoang_cach": 1.1}]
+print(sorted(vat_can_tho, key=lambda vt: vt["khoang_cach"]))
+
+# %% [markdown]
 # ### Bài tập 2.2 — Tìm kiếm nhị phân trong log
 #
 # Viết hàm `binary_search_log(log_timestamps, target_time)` — giống hệt ví dụ ở
@@ -212,18 +217,15 @@ kiem_tra_2_2(binary_search_log)
 # ---
 # ## Bài 3 — Bảng băm (Hash Table)
 #
-# ### Lý thuyết
-#
-# `dict` và `set` của Python được cài đặt **bên trong** bằng Bảng băm — cho phép
+# `dict` và `set` của Python được cài đặt bên trong bằng Bảng băm, cho phép
 # thêm/tìm/xoá gần như tức thời, `O(1)` trung bình.
 #
-# **Hàm băm (Hash Function)** biến một khoá (thường là chuỗi) thành một số
-# nguyên — dùng số đó (chia dư cho kích thước bảng) để xác định "ngăn" lưu trữ.
+# Hàm băm (Hash Function) biến một khoá (thường là chuỗi) thành một số nguyên,
+# rồi chia dư cho kích thước bảng để xác định "ngăn" lưu trữ.
 #
-# **Xung đột (Collision)** xảy ra khi hai khoá khác nhau bị hàm băm trả về cùng
-# một ngăn. Cách xử lý phổ biến nhất: **Chaining** — mỗi ngăn không lưu 1 giá
-# trị, mà lưu một **list** các cặp `(khoá, giá trị)`; khi tra cứu, duyệt list đó
-# để tìm đúng khoá.
+# Xung đột (Collision) xảy ra khi hai khoá khác nhau bị hàm băm trả về cùng một
+# ngăn. Cách xử lý phổ biến nhất là Chaining: mỗi ngăn không lưu 1 giá trị, mà lưu
+# một list các cặp `(khoá, giá trị)`; khi tra cứu, duyệt list đó để tìm đúng khoá.
 
 # %%
 def ham_bam_don_gian(dia_chi_mac, kich_thuoc_bang):

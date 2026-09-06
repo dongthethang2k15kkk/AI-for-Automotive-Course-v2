@@ -1,45 +1,39 @@
 """Bộ test tuần 1 - Nền tảng & Cú pháp cơ bản.
 
-Mỗi bài tập trong notebook tương ứng một hàm kiem_tra_* ở đây.
-Học viên chỉ cần gọi, ví dụ:  kiem_tra_1_1(diem_trung_binh)
+Tuần 1 chưa dạy `def`, nên các hàm kiem_tra_* ở đây nhận thẳng GIÁ TRỊ biến học
+viên đã gán trong notebook, không nhận hàm. Gọi ví dụ: kiem_tra_1_1(diem_tb_1, diem_tb_2)
 """
 
 from __future__ import annotations
 
 try:
-    from .runner import Case, kiem_tra
+    from .runner import kiem_tra_gia_tri
 except ImportError:  # khi chạy trực tiếp trong Colab, không qua package
-    from runner import Case, kiem_tra
+    from runner import kiem_tra_gia_tri
 
 
 # --------------------------------------------------------------------------
 # Bài 1: Biến và kiểu dữ liệu
 # --------------------------------------------------------------------------
 
-def kiem_tra_1_1(ham) -> bool:
-    """diem_trung_binh(toan, ly, hoa) -> float, làm tròn 2 chữ số."""
-    return kiem_tra(
+def kiem_tra_1_1(diem_tb_1, diem_tb_2) -> bool:
+    """diem_tb_1, diem_tb_2 -> trung bình cộng ba môn, không làm tròn."""
+    return kiem_tra_gia_tri(
         "Bài 1.1 - Điểm trung bình",
-        ham,
         [
-            Case(args=(8, 9, 10), expected=9.0),
-            Case(args=(7.5, 6, 8), expected=7.17, mo_ta="làm tròn 2 chữ số"),
-            Case(args=(10, 10, 10), expected=10.0),
-            Case(args=(0, 0, 0), expected=0.0),
+            ("diem_tb_1 (toan=8, ly=9, hoa=10)", diem_tb_1, (8 + 9 + 10) / 3),
+            ("diem_tb_2 (toan=7.5, ly=6, hoa=8)", diem_tb_2, (7.5 + 6 + 8) / 3),
         ],
     )
 
 
-def kiem_tra_1_2(ham) -> bool:
-    """ten_kieu_du_lieu(gia_tri) -> str: 'int' | 'float' | 'str' | 'bool'."""
-    return kiem_tra(
-        "Bài 1.2 - Nhận diện kiểu dữ liệu",
-        ham,
+def kiem_tra_1_2(noi_chuoi, tong_so) -> bool:
+    """noi_chuoi -> nối chuỗi "20" với "5". tong_so -> ép "20" sang số rồi +5."""
+    return kiem_tra_gia_tri(
+        "Bài 1.2 - Ép kiểu dữ liệu",
         [
-            Case(args=(120,), expected="int"),
-            Case(args=(11.5,), expected="float"),
-            Case(args=("Đang chạy",), expected="str"),
-            Case(args=(True,), expected="bool", mo_ta="bool phải ra 'bool', không phải 'int'"),
+            ("noi_chuoi (gia_tri_tho_2 + \"5\")", noi_chuoi, "205"),
+            ("tong_so (int(gia_tri_tho_2) + 5)", tong_so, 25),
         ],
     )
 
@@ -48,29 +42,35 @@ def kiem_tra_1_2(ham) -> bool:
 # Bài 2: Toán tử, chuỗi và ép kiểu
 # --------------------------------------------------------------------------
 
-def kiem_tra_2_1(ham) -> bool:
-    """chia_hoa_don(tong_tien, phan_tram_tip, so_nguoi) -> float, làm tròn 2 chữ số."""
-    return kiem_tra(
+def kiem_tra_2_1(moi_nguoi_tra_1, moi_nguoi_tra_2) -> bool:
+    """moi_nguoi_tra_1, moi_nguoi_tra_2 -> tiền mỗi người sau tip, làm tròn 2 chữ số."""
+    return kiem_tra_gia_tri(
         "Bài 2.1 - Chia hoá đơn",
-        ham,
         [
-            Case(args=(300000, 10, 3), expected=110000.0),
-            Case(args=(250000, 0, 4), expected=62500.0, mo_ta="không tip"),
-            Case(args=(100000, 15, 3), expected=38333.33, mo_ta="làm tròn 2 chữ số"),
-            Case(args=(500000, 20, 1), expected=600000.0, mo_ta="đi một mình"),
+            ("moi_nguoi_tra_1 (300000, tip 10%, 3 người)", moi_nguoi_tra_1, 110000.0),
+            ("moi_nguoi_tra_2 (100000, tip 15%, 3 người)", moi_nguoi_tra_2, 38333.33),
         ],
     )
 
 
-def kiem_tra_2_2(ham) -> bool:
-    """bao_cao_quang_duong(van_toc, thoi_gian) -> str theo đúng mẫu f-string."""
-    return kiem_tra(
+def kiem_tra_2_2(bao_cao) -> bool:
+    """bao_cao -> chuỗi đúng mẫu, van_toc_bc=20.0, thoi_gian_bc=3."""
+    return kiem_tra_gia_tri(
         "Bài 2.2 - Báo cáo quãng đường",
-        ham,
         [
-            Case(args=(15.5, 4), expected="Xe đã đi được 62.0 mét trong 4 giây."),
-            Case(args=(20.0, 3), expected="Xe đã đi được 60.0 mét trong 3 giây."),
-            Case(args=(12.25, 2), expected="Xe đã đi được 24.5 mét trong 2 giây."),
+            ("bao_cao", bao_cao, "Xe đã đi được 60.0 mét trong 3 giây."),
+        ],
+    )
+
+
+def kiem_tra_2_3(gio, phut, giay) -> bool:
+    """gio, phut, giay -> đổi tong_giay_bt=5000 sang giờ/phút/giây."""
+    return kiem_tra_gia_tri(
+        "Bài 2.3 - Đổi giây sang giờ phút giây",
+        [
+            ("gio (5000 giây)", gio, 1),
+            ("phut (5000 giây)", phut, 23),
+            ("giay (5000 giây)", giay, 20),
         ],
     )
 
@@ -79,33 +79,27 @@ def kiem_tra_2_2(ham) -> bool:
 # Bài 3: Boolean và câu lệnh điều kiện
 # --------------------------------------------------------------------------
 
-def kiem_tra_3_1(ham) -> bool:
-    """canh_bao_vat_can(khoang_cach) -> 'PHANH_KHAN_CAP' | 'GIAM_TOC' | 'AN_TOAN'."""
-    return kiem_tra(
+def kiem_tra_3_1(trang_thai_a, trang_thai_b, trang_thai_c, trang_thai_d) -> bool:
+    """trang_thai_a..d -> phân loại theo khoang_cach_a=0.5, _b=2.0, _c=5.0, _d=12.0."""
+    return kiem_tra_gia_tri(
         "Bài 3.1 - Cảnh báo vật cản",
-        ham,
         [
-            Case(args=(0.5,), expected="PHANH_KHAN_CAP"),
-            Case(args=(2.0,), expected="PHANH_KHAN_CAP", mo_ta="biên 2.0 vẫn là khẩn cấp"),
-            Case(args=(3.7,), expected="GIAM_TOC"),
-            Case(args=(5.0,), expected="GIAM_TOC", mo_ta="biên 5.0 vẫn là giảm tốc"),
-            Case(args=(12.0,), expected="AN_TOAN"),
+            ("trang_thai_a (khoang_cach_a=0.5)", trang_thai_a, "PHANH_KHAN_CAP"),
+            ("trang_thai_b (khoang_cach_b=2.0, biên)", trang_thai_b, "PHANH_KHAN_CAP"),
+            ("trang_thai_c (khoang_cach_c=5.0, biên)", trang_thai_c, "GIAM_TOC"),
+            ("trang_thai_d (khoang_cach_d=12.0)", trang_thai_d, "AN_TOAN"),
         ],
     )
 
 
-def kiem_tra_3_2(ham) -> bool:
-    """gia_ve(tuoi, la_buoi_toi) -> int (đơn vị VND)."""
-    return kiem_tra(
+def kiem_tra_3_2(gia_ve_1, gia_ve_2, gia_ve_3) -> bool:
+    """gia_ve_1..3 -> giá vé theo bảng tuổi/suất chiếu."""
+    return kiem_tra_gia_tri(
         "Bài 3.2 - Giá vé xem phim",
-        ham,
         [
-            Case(args=(4, False), expected=0, mo_ta="dưới 6 tuổi miễn phí"),
-            Case(args=(10, False), expected=45000),
-            Case(args=(10, True), expected=60000, mo_ta="trẻ em, suất tối"),
-            Case(args=(25, False), expected=75000),
-            Case(args=(25, True), expected=100000),
-            Case(args=(70, True), expected=50000, mo_ta="người cao tuổi, đồng giá"),
+            ("gia_ve_1 (4 tuổi, suất sáng)", gia_ve_1, 0),
+            ("gia_ve_2 (10 tuổi, suất tối)", gia_ve_2, 60000),
+            ("gia_ve_3 (70 tuổi, suất tối)", gia_ve_3, 50000),
         ],
     )
 
@@ -114,21 +108,14 @@ def kiem_tra_3_2(ham) -> bool:
 # Dự án tuần 1
 # --------------------------------------------------------------------------
 
-def kiem_tra_du_an(ham) -> bool:
-    """quyet_dinh_lai_xe(khoang_cach, toc_do, muc_pin) -> str.
-
-    Thứ tự ưu tiên: DUNG_KHAN_CAP > VE_TRAM_SAC > GIAM_TOC > BINH_THUONG
-    """
-    return kiem_tra(
+def kiem_tra_du_an(lenh_1, lenh_2, lenh_3, lenh_4) -> bool:
+    """lenh_1..4 -> mã lệnh theo thứ tự ưu tiên DUNG_KHAN_CAP > VE_TRAM_SAC > GIAM_TOC > BINH_THUONG."""
+    return kiem_tra_gia_tri(
         "Dự án tuần 1 - Bộ ra quyết định lái xe",
-        ham,
         [
-            Case(args=(1.5, 30, 80), expected="DUNG_KHAN_CAP"),
-            Case(args=(1.5, 30, 5), expected="DUNG_KHAN_CAP", mo_ta="an toàn ưu tiên hơn pin"),
-            Case(args=(20.0, 40, 10), expected="VE_TRAM_SAC"),
-            Case(args=(4.0, 40, 90), expected="GIAM_TOC", mo_ta="vật cản gần"),
-            Case(args=(30.0, 75, 90), expected="GIAM_TOC", mo_ta="chạy quá 60 km/h"),
-            Case(args=(30.0, 50, 90), expected="BINH_THUONG"),
-            Case(args=(5.0, 60, 15), expected="GIAM_TOC", mo_ta="đúng các giá trị biên"),
+            ("lenh_1 (khoang_cach=1.5, toc_do=30, muc_pin=5)", lenh_1, "DUNG_KHAN_CAP"),
+            ("lenh_2 (khoang_cach=20.0, toc_do=40, muc_pin=10)", lenh_2, "VE_TRAM_SAC"),
+            ("lenh_3 (khoang_cach=30.0, toc_do=75, muc_pin=90)", lenh_3, "GIAM_TOC"),
+            ("lenh_4 (khoang_cach=30.0, toc_do=50, muc_pin=90)", lenh_4, "BINH_THUONG"),
         ],
     )

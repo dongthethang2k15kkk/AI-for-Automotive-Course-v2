@@ -6,13 +6,13 @@ Khóa học Python/AI 6 tuần dành cho tân binh BK-AUTO, học trên Google C
 
 | Tuần | Chủ đề | Mở trên Colab |
 |---|---|---|
-| 1 | Nền tảng & cú pháp cơ bản | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-Course-v2/blob/main/week1/week_1.ipynb) |
-| 2 | Hàm, vòng lặp & cấu trúc dữ liệu cơ bản | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-Course-v2/blob/main/week2/week_2.ipynb) |
-| 3 | Xử lý lỗi & tư duy hướng đối tượng | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-Course-v2/blob/main/week3/week_3.ipynb) |
-| 4 | OOP nâng cao & cấu trúc dữ liệu tuyến tính | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-Course-v2/blob/main/week4/week_4.ipynb) |
-| 5 | Thuật toán cốt lõi & bảng băm | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-Course-v2/blob/main/week5/week_5.ipynb) |
-| 6 | Cấu trúc dữ liệu phi tuyến & tổng kết | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-Course-v2/blob/main/week6/week_6.ipynb) |
-| — | Đề thi cuối khóa | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-Course-v2/blob/main/final/final_test.ipynb) |
+| 1 | Nền tảng & cú pháp cơ bản | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-for-Automotive-Course-v2/blob/main/week1/week_1.ipynb) |
+| 2 | Hàm, vòng lặp & cấu trúc dữ liệu cơ bản | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-for-Automotive-Course-v2/blob/main/week2/week_2.ipynb) |
+| 3 | Xử lý lỗi & tư duy hướng đối tượng | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-for-Automotive-Course-v2/blob/main/week3/week_3.ipynb) |
+| 4 | OOP nâng cao & cấu trúc dữ liệu tuyến tính | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-for-Automotive-Course-v2/blob/main/week4/week_4.ipynb) |
+| 5 | Thuật toán cốt lõi & bảng băm | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-for-Automotive-Course-v2/blob/main/week5/week_5.ipynb) |
+| 6 | Cấu trúc dữ liệu phi tuyến & tổng kết | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-for-Automotive-Course-v2/blob/main/week6/week_6.ipynb) |
+| — | Đề thi cuối khóa | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dongthethang2k15kkk/AI-for-Automotive-Course-v2/blob/main/final/final_test.ipynb) |
 
 ## Cách học
 

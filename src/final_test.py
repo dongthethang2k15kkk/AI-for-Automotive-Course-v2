@@ -28,7 +28,7 @@ import os
 import sys
 import urllib.request
 
-REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-Course-v2/main"
+REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automotive-Course-v2/main"
 
 if not os.path.isdir("tests"):
     os.makedirs("tests", exist_ok=True)
@@ -146,11 +146,21 @@ kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
 # nhiều module khác nhau (né vật cản, đọc biển báo, bám làn), các khung thời gian
 # hoạt động thường xuyên **chồng chéo**, gây lãng phí CPU và hao pin.
 #
+# Nhắc lại từ tuần 5: `sorted(ds)` trả về một list mới đã sắp xếp. Khi mỗi phần
+# tử của `ds` lại là một list như `[start, end]`, `sorted()` so sánh theo phần tử
+# đầu tiên trước, phần tử thứ hai chỉ dùng khi phần tử đầu bằng nhau — đúng thứ tự
+# `start` tăng dần mà bài này cần, không phải viết thêm `key=...`.
+
+# %%
+vi_du_khung = [[8, 10], [1, 3], [2, 6]]
+print(sorted(vi_du_khung))
+
+# %% [markdown]
 # ### Yêu cầu
 #
 # Viết hàm `gop_khung_thoi_gian(intervals)` nhận vào một list các khung thời
-# gian, mỗi khung là `[start, end]`. **Gộp** tất cả các khung bị chồng chéo lại
-# với nhau, trả về list lịch trình đã gộp, **sắp theo `start` tăng dần**.
+# gian, mỗi khung là `[start, end]`. Gộp tất cả các khung bị chồng chéo lại với
+# nhau, trả về list lịch trình đã gộp, sắp theo `start` tăng dần.
 #
 # **Ví dụ 1:** `[[1, 3], [2, 6], [8, 10], [15, 18]]` → `[[1, 6], [8, 10], [15, 18]]`
 # (`[1,3]` và `[2,6]` chồng nhau vì `2 < 3`, gộp thành `[1,6]`).
@@ -158,9 +168,8 @@ kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
 # **Ví dụ 2:** `[[1, 4], [4, 5]]` → `[[1, 5]]` (chạm nhau tại mốc 4 vẫn tính là
 # chồng chéo).
 #
-# **Ràng buộc:** đầu vào có thể **chưa được sắp xếp**. Yêu cầu độ phức tạp
-# `O(n log n)` — gợi ý: sắp xếp mảng theo `start` trước, sau đó chỉ cần duyệt
-# **một lượt** để gộp.
+# **Ràng buộc:** đầu vào có thể chưa được sắp xếp. Yêu cầu độ phức tạp
+# `O(n log n)`: gọi `sorted(intervals)` trước, sau đó chỉ cần duyệt một lượt để gộp.
 
 # %%
 def gop_khung_thoi_gian(intervals):

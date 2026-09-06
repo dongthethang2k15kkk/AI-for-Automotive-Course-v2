@@ -19,8 +19,6 @@
 #    để mỗi lớp con tự định nghĩa hành vi riêng.
 # 2. Hiểu và cài đặt Stack (LIFO) và Queue (FIFO).
 # 3. Hiểu Linked List hoạt động khác List (mảng) như thế nào.
-#
-# Thời lượng ước tính: 3–4 giờ tự học.
 
 # %%
 # Ô thiết lập - chạy đầu tiên, mỗi lần mở notebook.
@@ -29,7 +27,7 @@ import sys
 import urllib.request
 from collections import deque
 
-REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-Course-v2/main"
+REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automotive-Course-v2/main"
 
 if not os.path.isdir("tests"):
     os.makedirs("tests", exist_ok=True)
@@ -50,21 +48,18 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # ---
 # ## Bài 1 — Kế thừa (Inheritance) và Đa hình (Polymorphism)
 #
-# ### Lý thuyết
+# Kế thừa: lớp con (`class Con(Cha):`) tự động có toàn bộ thuộc tính và phương
+# thức của lớp cha, không cần viết lại.
 #
-# **Kế thừa:** lớp con (`class Con(Cha):`) tự động có toàn bộ thuộc tính và phương
-# thức của lớp cha, không cần viết lại — đúng nguyên tắc DRY (Don't Repeat
-# Yourself).
+# `super().__init__(...)` gọi hàm khởi tạo của lớp cha từ bên trong lớp con, để
+# không phải chép lại logic khởi tạo.
 #
-# **`super().__init__(...)`** gọi hàm khởi tạo của lớp cha từ bên trong lớp con,
-# để không phải chép lại logic khởi tạo.
+# Ghi đè phương thức (Method Overriding): lớp con định nghĩa lại một phương thức
+# đã có ở lớp cha, cho phù hợp đặc thù của nó. Đây chính là Đa hình: cùng một lời
+# gọi `.doc_du_lieu()`, mỗi loại cảm biến trả lời khác nhau.
 #
-# **Ghi đè phương thức (Method Overriding)** — lớp con định nghĩa lại một phương
-# thức đã có ở lớp cha, cho phù hợp đặc thù của nó. Đây chính là **Đa hình**: cùng
-# một lời gọi `.doc_du_lieu()`, mỗi loại cảm biến trả lời khác nhau.
-#
-# **Đóng gói:** tiền tố `_` (protected, quy ước "đừng đụng vào từ bên ngoài") và
-# `__` (private, Python thật sự đổi tên biến để khó truy cập từ bên ngoài hơn).
+# Đóng gói: tiền tố `_` là quy ước "đừng đụng vào từ bên ngoài"; `__` là private,
+# Python thật sự đổi tên biến để khó truy cập từ bên ngoài hơn.
 
 # %%
 class CamBien:
@@ -114,10 +109,11 @@ print(cam_giua.doc_du_lieu())
 # liên quan.** Ghi đè đúng nghĩa là lớp con thay thế **hoàn toàn** hành vi đã có ở
 # lớp cha cho cùng một tên phương thức.
 #
-# ### Cách viết chuẩn
+# ### Thứ tự gọi super().__init__()
 #
-# Luôn gọi `super().__init__(...)` đầu tiên trong `__init__` của lớp con — thiết
-# lập nền tảng từ lớp cha trước, rồi mới thêm phần riêng của lớp con.
+# Luôn gọi `super().__init__(...)` là dòng đầu tiên trong `__init__` của lớp con.
+# Thiết lập xong phần của lớp cha trước, rồi mới gán thêm thuộc tính riêng của lớp
+# con, tránh trường hợp lớp con ghi đè lên giá trị lớp cha vừa thiết lập.
 
 # %% [markdown]
 # ### Bài tập 1.1 — Hệ thống nhân sự
@@ -172,15 +168,15 @@ kiem_tra_1_1(NhanVien, QuanLy, LapTrinhVien)
 # ---
 # ## Bài 2 — Stack & Queue
 #
-# ### Lý thuyết
+# Stack (Ngăn xếp) hoạt động theo nguyên tắc LIFO (Last In, First Out — vào sau ra
+# trước). Dùng `list` với `.append()` (đẩy vào) và `.pop()` (lấy phần tử cuối ra).
+# Ứng dụng: Undo/Redo, nút Back của trình duyệt.
 #
-# **Stack (Ngăn xếp) — LIFO** (Last In, First Out — vào sau ra trước). Dùng
-# `list` với `.append()` (đẩy vào) và `.pop()` (lấy phần tử **cuối** ra). Ứng
-# dụng: Undo/Redo, nút Back của trình duyệt.
-#
-# **Queue (Hàng đợi) — FIFO** (First In, First Out — vào trước ra trước). Dùng
-# `collections.deque` với `.append()` (đẩy vào cuối) và `.popleft()` (lấy phần tử
-# **đầu** ra) — nhanh hơn `list.pop(0)` rất nhiều với dữ liệu lớn.
+# Queue (Hàng đợi) hoạt động theo nguyên tắc FIFO (First In, First Out — vào
+# trước ra trước). Dùng `collections.deque` với `.append()` (đẩy vào cuối) và
+# `.popleft()` (lấy phần tử đầu ra). `list.pop(0)` cũng lấy được phần tử đầu,
+# nhưng phải dịch chuyển toàn bộ phần tử còn lại nên chậm hẳn với dữ liệu lớn;
+# `deque` không có nhược điểm đó.
 
 # %%
 hang_doi_lenh = deque()
@@ -260,9 +256,7 @@ kiem_tra_2_2(dieu_huong_waypoint)
 # ---
 # ## Bài 3 — Danh sách liên kết (Linked List)
 #
-# ### Lý thuyết
-#
-# **Node** là đơn vị cơ bản: chứa `data` (dữ liệu) và `next` (con trỏ tới Node kế
+# Node là đơn vị cơ bản: chứa `data` (dữ liệu) và `next` (con trỏ tới Node kế
 # tiếp, hoặc `None` nếu là Node cuối).
 #
 # Khác với `list` (mảng) của Python — không có chỉ số (index) để nhảy thẳng tới

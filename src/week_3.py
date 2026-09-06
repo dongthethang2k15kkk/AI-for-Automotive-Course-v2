@@ -18,8 +18,6 @@
 # 1. Bọc code có rủi ro bằng `try/except`, chủ động `raise` khi dữ liệu sai.
 # 2. Định nghĩa `class`, hiểu `__init__` và `self`.
 # 3. Viết một hệ thống nhỏ có trạng thái (Budget App) hoàn toàn bằng OOP.
-#
-# Thời lượng ước tính: 3–4 giờ tự học.
 
 # %%
 # Ô thiết lập - chạy đầu tiên, mỗi lần mở notebook.
@@ -27,7 +25,7 @@ import os
 import sys
 import urllib.request
 
-REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-Course-v2/main"
+REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automotive-Course-v2/main"
 
 if not os.path.isdir("tests"):
     os.makedirs("tests", exist_ok=True)
@@ -48,13 +46,10 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # ---
 # ## Bài 1 — Xử lý ngoại lệ (Error Handling)
 #
-# ### Lý thuyết
-#
-# **Lỗi cú pháp (Syntax Error)** khiến code không chạy được ngay từ đầu — Python
-# báo trước khi thực thi bất kỳ dòng nào. **Lỗi thực thi (Exception)** xảy ra khi
-# code cú pháp đúng nhưng gặp tình huống không xử lý được lúc chạy, ví dụ
-# `ValueError` (ép kiểu thất bại), `ZeroDivisionError` (chia cho 0), `TypeError`
-# (sai kiểu dữ liệu).
+# Lỗi cú pháp (Syntax Error) khiến code không chạy được ngay từ đầu, Python báo
+# trước khi thực thi bất kỳ dòng nào. Lỗi thực thi (Exception) xảy ra khi code cú
+# pháp đúng nhưng gặp tình huống không xử lý được lúc chạy, ví dụ `ValueError` (ép
+# kiểu thất bại), `ZeroDivisionError` (chia cho 0), `TypeError` (sai kiểu dữ liệu).
 #
 # ```python
 # try:
@@ -100,10 +95,11 @@ doc_cam_bien("N/A")    # dữ liệu bị nhiễu
 # phải lỗi nào cũng nên "nuốt" — có lỗi nên để chương trình dừng lại để người dùng
 # biết mà sửa dữ liệu đầu vào, thay vì âm thầm trả về giá trị sai.
 #
-# ### Cách viết chuẩn
+# ### Trả lỗi ra sao khi hàm cần trả kết quả
 #
-# Khi hàm cần **trả kết quả** thay vì chỉ in ra, hãy trả về một mã lỗi hoặc `raise`
-# lại, đừng `print()` rồi `return None` — vì `None` rất dễ gây lỗi tiếp ở chỗ gọi.
+# Khi hàm cần trả kết quả thay vì chỉ in ra, hãy trả về một mã lỗi hoặc `raise`
+# lại, đừng `print()` rồi `return None`: chỗ gọi hàm nhận `None` thường dùng luôn
+# giá trị đó ở bước tính tiếp theo, gây lỗi mới khó truy ngược lại nguyên nhân gốc.
 
 # %%
 def chia_an_toan(tu_so, mau_so):
@@ -141,11 +137,9 @@ kiem_tra_1_1(tinh_van_toc_an_toan)
 # ---
 # ## Bài 2 — Nhập môn Lập trình hướng đối tượng
 #
-# ### Lý thuyết
-#
-# Thay vì để dữ liệu (biến) và hành vi (hàm) rời rạc, OOP gom chúng vào một
-# **đối tượng (object)** duy nhất. **Class** là bản thiết kế; **object** là thực
-# thể cụ thể được tạo ra từ bản thiết kế đó.
+# Thay vì để dữ liệu (biến) và hành vi (hàm) rời rạc, OOP gom chúng vào một đối
+# tượng (object) duy nhất. Class là bản thiết kế; object là thực thể cụ thể được
+# tạo ra từ bản thiết kế đó.
 #
 # `__init__` là phương thức chạy tự động khi object vừa được tạo — dùng để thiết
 # lập trạng thái ban đầu. `self` là tham số đầu tiên của mọi phương thức, đại diện
@@ -237,14 +231,12 @@ kiem_tra_2_1(TaiKhoanNganHang)
 # ---
 # ## Bài 3 — Quản lý trạng thái đối tượng
 #
-# ### Lý thuyết
+# Thuộc tính của Class (Class Variable) dùng chung cho mọi object, ví dụ
+# `tong_so_lan_tao` ở trên. Thuộc tính của Object (Instance Variable), khai báo
+# trong `__init__` bằng `self.ten = ...`, độc lập cho từng object.
 #
-# **Thuộc tính của Class (Class Variable)** dùng chung cho mọi object (ví dụ
-# `tong_so_lan_tao` ở trên). **Thuộc tính của Object (Instance Variable)** — khai
-# báo trong `__init__` bằng `self.ten = ...` — độc lập cho từng object.
-#
-# `__str__(self)` tùy chỉnh chuỗi hiển thị khi `print(object)` được gọi — rất hữu
-# ích để debug và làm báo cáo, thay vì phải tự viết `print(f"...")` mỗi lần.
+# `__str__(self)` tùy chỉnh chuỗi hiển thị khi `print(object)` được gọi, thay vì
+# phải tự viết `print(f"...")` mỗi lần cần in trạng thái của object đó.
 
 # %%
 class XeTuHanh:

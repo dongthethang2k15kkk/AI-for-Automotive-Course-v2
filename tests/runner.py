@@ -107,3 +107,36 @@ def kiem_tra(ten_bai: str, ham: Any, cases: list[Case], sai_so: float = 1e-6) ->
     if STRICT and dat < tong:
         raise AssertionError(f"{ten_bai}: {dat}/{tong} test đạt")
     return dat == tong
+
+
+def kiem_tra_gia_tri(ten_bai: str, cap: list[tuple[str, Any, Any]], sai_so: float = 1e-6) -> bool:
+    """Chấm bài không dùng hàm: so sánh giá trị biến học viên đã gán.
+
+    cap: danh sách (nhãn hiển thị, giá trị thực tế, giá trị mong đợi).
+    Dùng cho các tuần chưa dạy `def` — học viên gán thẳng biến thay vì viết hàm.
+    """
+    print(f"\n{ten_bai}")
+
+    dat = 0
+    for i, (nhan, thuc_te, mong_doi) in enumerate(cap, 1):
+        if thuc_te is None:
+            print(f"  {DO}FAIL  test {i}{RESET}: {nhan}")
+            print(f"     {XAM}mong đợi:{RESET} {_rut_gon(mong_doi)}")
+            print(f"     {XAM}thực tế :{RESET} biến chưa được gán, vẫn còn là None")
+        elif _giong_nhau(thuc_te, mong_doi, sai_so):
+            dat += 1
+            print(f"  {XANH}PASS  test {i}{RESET}: {nhan} -> {_rut_gon(thuc_te)}")
+        else:
+            print(f"  {DO}FAIL  test {i}{RESET}: {nhan}")
+            print(f"     {XAM}mong đợi:{RESET} {_rut_gon(mong_doi)}")
+            print(f"     {XAM}thực tế :{RESET} {_rut_gon(thuc_te)}")
+
+    tong = len(cap)
+    if dat == tong:
+        print(f"  {XANH}Kết quả: {dat}/{tong} — Đạt!{RESET}")
+    else:
+        print(f"  {VANG}Kết quả: {dat}/{tong} — Xem lại các test còn đỏ rồi chạy lại ô này nhé.{RESET}")
+
+    if STRICT and dat < tong:
+        raise AssertionError(f"{ten_bai}: {dat}/{tong} test đạt")
+    return dat == tong
