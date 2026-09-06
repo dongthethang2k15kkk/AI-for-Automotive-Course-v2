@@ -1,4 +1,4 @@
-# AI Course 2526 — BK-AUTO
+# AI Course v2 — BK-AUTO
 
 Khóa học Python/AI 6 tuần dành cho tân binh BK-AUTO, học trên Google Colab, tự chấm điểm tự động.
 

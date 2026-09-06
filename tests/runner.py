@@ -1,4 +1,4 @@
-"""Bộ máy chấm bài dùng chung cho khoá AI Course 2526 (BK-AUTO).
+"""Bộ máy chấm bài dùng chung cho khoá AI Course v2 (BK-AUTO).
 
 Dùng ở 2 nơi với cùng một bộ test:
   - Trong Colab: học viên bấm Run, nhận kết quả PASS/FAIL.
