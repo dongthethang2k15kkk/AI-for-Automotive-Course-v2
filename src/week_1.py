@@ -110,17 +110,16 @@ print(gia_tri_tho + "5")     # nối chuỗi -> "105"
 print(int(gia_tri_tho) + 5)  # ép kiểu rồi cộng -> 15
 
 # %% [markdown]
-# Tính chất ép kiểu, giữ nguyên cho mọi bài sau có ép kiểu:
+# Tính chất ép kiểu:
 #
-# 1. `int()` và `float()` chỉ ép được chuỗi đúng dạng số. `int("10")` được vì toàn
+# 1. `int()` và `float()` chỉ ép được chuỗi đúng dạng số: `int("10")` được vì toàn
 #    chữ số, `float("10.5")` được vì có đúng một dấu chấm.
-# 2. `int("10.5")` ném `ValueError: invalid literal for int() with base 10: '10.5'`
-#    vì `int()` không tự đọc dấu chấm. Muốn cắt một chuỗi có dấu chấm về số nguyên,
-#    phải ép sang `float()` trước rồi mới `int()`.
-# 3. `int(10.9)` cắt bỏ phần thập phân, ra `10`. Đây không phải làm tròn —
-#    `round(10.9)` mới ra `11`.
-# 4. `int("10") + int("5")` và `int("10" + "5")` là hai phép tính khác nhau: một
-#    cộng hai số đã ép, một nối hai chuỗi rồi mới ép — ra `15` so với `105`.
+# 2. `int("10.5")` ném `ValueError: invalid literal for int() with base 10: '10.5'`,
+#    vì `int()` không tự đọc dấu chấm. Ép một chuỗi có dấu chấm về số nguyên thì
+#    phải qua `float()` trước, rồi `int()` sau.
+# 3. `int(10.9)` cắt bỏ phần thập phân, ra `10`. `round(10.9)` làm tròn, ra `11`.
+# 4. `int("10") + int("5")` cộng hai số đã ép, ra `15`. `int("10" + "5")` nối chuỗi
+#    trước rồi mới ép, ra `105`.
 
 # %%
 print(int("10"), float("10.5"))    # ep duoc vi dung dang so: 10 10.5
@@ -188,13 +187,12 @@ print(f"Thoi gian chay: {gio_vd} gio {phut_vd} phut {giay_vd} giay")
 # %% [markdown]
 # Tính chất của `//` và `%` khi `a`, `b` là số nguyên dương:
 #
-# 1. `a == (a // b) * b + a % b` luôn đúng — đây là công thức chia có dư, `//` cho
-#    thương, `%` cho số dư.
+# 1. `a == (a // b) * b + a % b` luôn đúng: `//` cho thương, `%` cho số dư.
 # 2. `a % b` luôn nằm trong khoảng từ `0` đến `b - 1`. Dùng để bắt phần dư sau khi
 #    chia hết cho một chu kỳ, ví dụ `gio % 24` luôn ra giờ trong ngày, từ 0 đến 23.
-# 3. `//` giữa hai `int` cho `int`; có một toán hạng là `float` thì kết quả là
-#    `float`: `7.0 // 2` ra `3.0`, không phải `3`.
-# 4. Với số âm, `//` làm tròn về phía âm vô cực, không phải về 0: `-7 // 2` ra `-4`.
+# 3. `//` giữa hai `int` cho `int`. Có một toán hạng là `float` thì kết quả cũng là
+#    `float`: `7.0 // 2` ra `3.0`.
+# 4. Với số âm, `//` làm tròn về phía âm vô cực: `-7 // 2` ra `-4`.
 
 # %%
 a, b = 17, 5
