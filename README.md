@@ -1,6 +1,6 @@
 # AI Course v2 — BK-AUTO
 
-Khóa học Python/AI 6 tuần dành cho tân binh BK-AUTO, học trên Google Colab, tự chấm điểm tự động.
+Khóa học Python/AI 6 tuần dành cho newbies mảng AI for Automobile/BK-Auto. Học trên Google Colab, chạy ô kiểm tra là biết đúng/sai ngay.
 
 ## Lộ trình
 
@@ -16,7 +16,7 @@ Khóa học Python/AI 6 tuần dành cho tân binh BK-AUTO, học trên Google C
 
 ## Cách học
 
-Mỗi notebook tự đứng được — không cần buổi giảng để hiểu bài. Đọc lý thuyết, chạy ví dụ, làm bài tập, bấm ô kiểm tra để tự biết đúng/sai ngay tại chỗ. Buổi gặp mentor (nếu có) chỉ dùng để chữa những chỗ còn vướng.
+Mỗi notebook tự đứng được, không cần buổi giảng mới hiểu bài: đọc lý thuyết, chạy ví dụ, làm bài tập, bấm ô kiểm tra là biết ngay đúng hay sai. Buổi gặp mentor (nếu có) chỉ dùng để chữa chỗ còn vướng.
 
 ## Nộp bài
 
