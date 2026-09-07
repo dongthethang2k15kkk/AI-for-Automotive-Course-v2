@@ -339,10 +339,28 @@ khoang_cach_b = 2.0
 khoang_cach_c = 5.0
 khoang_cach_d = 12.0
 
-trang_thai_a = None  # TODO(điền trực tiếp kết quả thay cho None, ko yêu cầu code)
-trang_thai_b = None  # TODO
-trang_thai_c = None  # TODO
-trang_thai_d = None  # TODO
+# Khởi tạo sẵn để ô kiểm tra chạy được ngay cả khi bạn chưa làm gì.
+trang_thai_a = None
+trang_thai_b = None
+trang_thai_c = None
+trang_thai_d = None
+
+# ---------- Trường hợp a: làm sẵn để bạn xem mẫu ----------
+if khoang_cach_a <= 2.0:
+    trang_thai_a = "PHANH_KHAN_CAP"
+elif khoang_cach_a <= 5.0:
+    trang_thai_a = "GIAM_TOC"
+else:
+    trang_thai_a = "AN_TOAN"
+
+# ---------- Trường hợp b: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
+
+# ---------- Trường hợp c: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
+
+# ---------- Trường hợp d: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
 
 # %%
 kiem_tra_3_1(trang_thai_a, trang_thai_b, trang_thai_c, trang_thai_d)
@@ -365,9 +383,33 @@ tuoi_1, la_buoi_toi_1 = 4, False
 tuoi_2, la_buoi_toi_2 = 10, True
 tuoi_3, la_buoi_toi_3 = 70, True
 
-gia_ve_1 = None  # TODO
-gia_ve_2 = None  # TODO
-gia_ve_3 = None  # TODO
+# Khởi tạo sẵn để ô kiểm tra chạy được ngay cả khi bạn chưa làm gì.
+gia_ve_1 = None
+gia_ve_2 = None
+gia_ve_3 = None
+
+# ---------- Khách 1: làm sẵn để bạn xem mẫu ----------
+# Bảng có hai chiều: trước hết chia theo tuổi, trong mỗi bậc tuổi mới xét suất chiếu.
+if tuoi_1 < 6:
+    gia_ve_1 = 0
+elif tuoi_1 <= 12:
+    if la_buoi_toi_1:
+        gia_ve_1 = 60000
+    else:
+        gia_ve_1 = 45000
+elif tuoi_1 <= 59:
+    if la_buoi_toi_1:
+        gia_ve_1 = 100000
+    else:
+        gia_ve_1 = 75000
+else:
+    gia_ve_1 = 50000
+
+# ---------- Khách 2: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
+
+# ---------- Khách 3: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
 
 # %%
 kiem_tra_3_2(gia_ve_1, gia_ve_2, gia_ve_3)
@@ -395,10 +437,33 @@ khoang_cach_2, toc_do_2, muc_pin_2 = 20.0, 40, 10
 khoang_cach_3, toc_do_3, muc_pin_3 = 30.0, 75, 90
 khoang_cach_4, toc_do_4, muc_pin_4 = 30.0, 50, 90
 
-lenh_1 = None  # TODO
-lenh_2 = None  # TODO
-lenh_3 = None  # TODO
-lenh_4 = None  # TODO
+# Khởi tạo sẵn để ô kiểm tra chạy được ngay cả khi bạn chưa làm gì.
+lenh_1 = None
+lenh_2 = None
+lenh_3 = None
+lenh_4 = None
+
+# Dự án không làm mẫu sẵn. Bài 3.1 và 3.2 đã đi qua đúng cấu trúc này hai lần.
+# Khối của bạn có dạng:
+#     if <điều kiện ưu tiên 1>:
+#         lenh_N = "..."
+#     elif <điều kiện ưu tiên 2>:
+#         ...
+#     else:
+#         lenh_N = "BINH_THUONG"
+# Bốn điều kiện và thứ tự ưu tiên nằm ở phần đề bài ngay trên.
+
+# ---------- Tình huống 1: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
+
+# ---------- Tình huống 2: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
+
+# ---------- Tình huống 3: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
+
+# ---------- Tình huống 4: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+
 
 # %%
 kiem_tra_du_an(lenh_1, lenh_2, lenh_3, lenh_4)
