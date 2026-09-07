@@ -266,15 +266,15 @@ kiem_tra_2_2(loc_vat_can_gan)
 # `{}` là dict rỗng, không phải set rỗng — set rỗng phải viết `set()`.
 
 # %%
-vehicle_config = {
+cau_hinh_xe = {
     "toc_do_toi_da": 40,
     "do_phan_giai_camera": "1080p",
     "pid_lai": [0.1, 0.01, 0.5],
 }
 cam_bien_dang_bat = {"lidar", "sieu_am", "camera"}
 
-vehicle_config["toc_do_toi_da"] = 30
-print(f"Do phan giai camera: {vehicle_config['do_phan_giai_camera']}")
+cau_hinh_xe["toc_do_toi_da"] = 30
+print(f"Do phan giai camera: {cau_hinh_xe['do_phan_giai_camera']}")
 print(f"Cam bien dang bat: {cam_bien_dang_bat}")
 
 cam_bien_yeu_cau = {"lidar", "gps"}
@@ -363,12 +363,12 @@ kiem_tra_3_3(kiem_tra_quyen_truy_cap)
 # ## Dự án 1 — Bộ quản lý cấu hình người dùng
 #
 # Ghép bài 3.2 và 3.3 lại: viết hàm
-# `quan_ly_cau_hinh(config_mac_dinh, config_tuy_chinh, quyen_nguoi_dung, quyen_yeu_cau)`
+# `quan_ly_cau_hinh(mac_dinh, tuy_chinh, quyen_nguoi_dung, quyen_yeu_cau)`
 # trả về một `dict`:
 #
 # ```python
 # {
-#     "cau_hinh": ...,   # kết quả hop_nhat_cau_hinh(config_mac_dinh, config_tuy_chinh)
+#     "cau_hinh": ...,   # kết quả hop_nhat_cau_hinh(mac_dinh, tuy_chinh)
 #     "duoc_phep": ...,  # kết quả kiem_tra_quyen_truy_cap(quyen_nguoi_dung, quyen_yeu_cau)
 # }
 # ```
@@ -377,7 +377,7 @@ kiem_tra_3_3(kiem_tra_quyen_truy_cap)
 # lại logic đã có.
 
 # %%
-def quan_ly_cau_hinh(config_mac_dinh, config_tuy_chinh, quyen_nguoi_dung, quyen_yeu_cau):
+def quan_ly_cau_hinh(mac_dinh, tuy_chinh, quyen_nguoi_dung, quyen_yeu_cau):
     # TODO: gọi lại hop_nhat_cau_hinh và kiem_tra_quyen_truy_cap, gộp kết quả vào dict
     pass
 

@@ -67,27 +67,27 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 #
 # | Kiểu | Ý nghĩa | Ví dụ trong hệ thống xe |
 # |---|---|---|
-# | `int` | số nguyên | `motor_speed = 120` (vòng/phút) |
-# | `float` | số thực | `battery_voltage = 11.5` (V) |
-# | `str` | chuỗi ký tự | `system_status = "Dang chay"` |
-# | `bool` | đúng/sai | `sensor_active = True` |
+# | `int` | số nguyên | `toc_do_dong_co = 120` (vòng/phút) |
+# | `float` | số thực | `dien_ap_pin = 11.5` (V) |
+# | `str` | chuỗi ký tự | `trang_thai_he_thong = "Dang chay"` |
+# | `bool` | đúng/sai | `cam_bien_hoat_dong = True` |
 #
 # Quy ước đặt tên (PEP 8): biến dùng `snake_case`, viết thường, các từ nối bằng dấu
-# gạch dưới. Hằng số viết HOA: `MAX_SPEED = 120`.
+# gạch dưới. Hằng số viết HOA: `TOC_DO_TOI_DA = 120`.
 
 # %%
 # Khai báo các thông số của một hệ thống
-motor_speed = 120            # int
-battery_voltage = 11.5       # float
-system_status = "Dang chay"  # str
-sensor_active = True         # bool
+toc_do_dong_co = 120               # int
+dien_ap_pin = 11.5                 # float
+trang_thai_he_thong = "Dang chay"  # str
+cam_bien_hoat_dong = True          # bool
 
-MAX_SPEED = 150              # hằng số: viết HOA
+TOC_DO_TOI_DA = 150                # hằng số: viết HOA
 
-print(motor_speed, type(motor_speed))     # lệnh type() để check kiểu dữ liệu
-print(battery_voltage, type(battery_voltage))
-print(system_status, type(system_status))
-print(sensor_active, type(sensor_active))
+print(toc_do_dong_co, type(toc_do_dong_co))     # lệnh type() để check kiểu dữ liệu
+print(dien_ap_pin, type(dien_ap_pin))
+print(trang_thai_he_thong, type(trang_thai_he_thong))
+print(cam_bien_hoat_dong, type(cam_bien_hoat_dong))
 
 # %% [markdown]
 # Bốn điểm hay gây lỗi ở bài này:

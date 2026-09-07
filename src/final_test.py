@@ -76,7 +76,7 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # A. Trỏ đến lớp cha.　B. Từ khóa khai báo biến toàn cục.
 # C. Trỏ đến chính đối tượng (instance) đang gọi phương thức.　D. Đại diện cho `__init__`.
 #
-# **Câu 9:** Để biến `__engine_status` trở thành private, nguyên lý nào của OOP đang được áp dụng?
+# **Câu 9:** Để biến `__trang_thai_dong_co` trở thành private, nguyên lý nào của OOP đang được áp dụng?
 # A. Kế thừa　B. Đóng gói (Encapsulation)　C. Đa hình　D. Trừu tượng
 #
 # **Câu 10:** Hàm `super().__init__()` dùng trong Lớp con nhằm mục đích gì?
