@@ -56,8 +56,7 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # ## Bài 1 — Hàm (Functions) và phạm vi biến (Scope)
 #
 # Hàm là một khối code có tên, nhận đầu vào (tham số), trả về đầu ra (`return`), và
-# có thể gọi lại nhiều lần mà không phải chép lại cùng một đoạn code ở nhiều chỗ —
-# đúng vấn đề mà tuần 1 gặp phải khi viết bốn khối `if/elif/else` gần giống hệt nhau.
+# có thể gọi lại nhiều lần mà không phải chép lại cùng một đoạn code ở nhiều chỗ.
 #
 # ```python
 # def ten_ham(tham_so_1, tham_so_2=gia_tri_mac_dinh):
@@ -68,7 +67,7 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # **Phạm vi biến (scope):** biến khai báo *bên trong* hàm là biến cục bộ (local) —
 # chỉ tồn tại trong lúc hàm chạy, không ảnh hưởng ra ngoài. Biến khai báo bên ngoài
 # hàm là biến toàn cục (global). Một hàm đọc được biến toàn cục, nhưng muốn *gán lại*
-# nó thì phải khai báo `global ten_bien` — cách này nên tránh, vì code phụ thuộc
+# nó thì phải khai báo `global ten_bien`, cách này nên tránh, vì code phụ thuộc
 # biến toàn cục rất khó debug.
 #
 # **Tham số mặc định** cho phép gọi hàm mà không cần truyền đủ mọi tham số.
@@ -172,7 +171,7 @@ canh_bao = []
 for khoang_cach in lidar_readings:
     if khoang_cach < 1.0:
         print(f"Nguy hiem! Vat can o {khoang_cach} m")
-        canh_bao.append(khoang_cach)
+        canh_bao.append(khoang_cach)  
 
 print("Cac khoang cach can chu y:", canh_bao)
 print("Gia tri cuoi:", lidar_readings[-1])

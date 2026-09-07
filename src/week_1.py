@@ -20,10 +20,7 @@
 # 3. Viết được logic ra quyết định bằng `if / elif / else`.
 #
 # Đọc phần lý thuyết, chạy ô ví dụ để xem kết quả, rồi làm ô bài tập. Mỗi bài tập có
-# một ô kiểm tra ngay bên dưới — chạy nó để biết mình đúng hay sai.
-#
-# Tuần này chưa dùng `def`. Bài tập nào có nhiều trường hợp thì mỗi trường hợp là một
-# bộ biến riêng, gán bằng tay. Cách viết đó cồng kềnh — tuần 2 sẽ gói nó lại thành hàm.
+# một ô kiểm tra ngay bên dưới.
 #
 # **Quy tắc:** không sửa nội dung các ô kiểm tra. Chỉ viết code vào chỗ có `# TODO`.
 
@@ -87,7 +84,7 @@ sensor_active = True         # bool
 
 MAX_SPEED = 150              # hằng số: viết HOA
 
-print(motor_speed, type(motor_speed))
+print(motor_speed, type(motor_speed))     # lệnh type() để check kiểu dữ liệu
 print(battery_voltage, type(battery_voltage))
 print(system_status, type(system_status))
 print(sensor_active, type(sensor_active))
@@ -96,10 +93,10 @@ print(sensor_active, type(sensor_active))
 # Bốn điểm hay gây lỗi ở bài này:
 #
 # 1. `"10"` và `10` là hai thứ khác nhau. Dữ liệu đọc từ cảm biến hay từ `input()`
-#    luôn là chuỗi, phải ép kiểu trước khi tính toán.
+#    luôn là chuỗi, phải ép kiểu trước khi tính toán. 
+#    VD: Nhập số nguyên từ bàn phím phải ép `int():` `int(input(...))`
 # 2. Dùng biến chưa gán thì Python báo `NameError`. Biến phải được gán trước khi dùng.
-# 3. Đặt tên kiểu `x`, `a1`, `data2` thì code vẫn chạy, nhưng mở lại sau vài tuần sẽ
-#    phải đọc lại toàn bộ hàm mới đoán ra biến đó chứa gì. Đặt tên theo nội dung:
+# 3. Nên đặt tên theo nội dung:
 #    `toc_do_xe`, `so_lan_doc_cam_bien`.
 # 4. `type(True)` trả về `bool`, không phải `int` — dù trong Python `True == 1`.
 
@@ -112,14 +109,17 @@ print(int(gia_tri_tho) + 5)  # ép kiểu rồi cộng -> 15
 # %% [markdown]
 # Tính chất ép kiểu:
 #
-# 1. `int()` và `float()` chỉ ép được chuỗi đúng dạng số: `int("10")` được vì toàn
-#    chữ số, `float("10.5")` được vì có đúng một dấu chấm.
-# 2. `int("10.5")` ném `ValueError: invalid literal for int() with base 10: '10.5'`,
-#    vì `int()` không tự đọc dấu chấm. Ép một chuỗi có dấu chấm về số nguyên thì
-#    phải qua `float()` trước, rồi `int()` sau.
-# 3. `int(10.9)` cắt bỏ phần thập phân, ra `10`. `round(10.9)` làm tròn, ra `11`.
-# 4. `int("10") + int("5")` cộng hai số đã ép, ra `15`. `int("10" + "5")` nối chuỗi
-#    trước rồi mới ép, ra `105`.
+# 1. `int()` và `float()` chỉ chấp nhận chuỗi đúng định dạng số: 
+#    * `int("10")` hoạt động vì chuỗi biểu diễn đúng một số nguyên ở hệ cơ số 10.
+#    * `float("10.5")` hoạt động vì chuỗi biểu diễn đúng dạng số thực (có tối đa một dấu chấm thập phân).
+#
+# 2. `int("10.5")` sẽ phát sinh lỗi `ValueError: invalid literal for int() with base 10: '10.5'` do `int()` không xử lý ký tự dấu chấm `.` trong chuỗi. Để lấy phần nguyên từ một chuỗi số thực, phải ép kiểu qua `float()` trước rồi mới ép về `int()` sau: `int(float("10.5"))`.
+#
+# 3. `int(10.9)` thực hiện **cắt bỏ phần thập phân** (truncation), cho ra `10`. Trong khi đó, `round(10.9)`HOẶC `round(10.9,0)` thực hiện **làm tròn 0 chữ số sau dấu phẩy** theo quy tắc toán học, cho ra `11`.
+#
+# 4. Thứ tự thực thi và bản chất của toán tử `+`:
+#    * `int("10") + int("5")`: Ép hai chuỗi thành hai số nguyên trước, sau đó toán tử `+` thực hiện **phép cộng đại số**, cho ra `15`.
+#    * `int("10" + "5")`: Toán tử `+` thực hiện **nối chuỗi** trước thành `"105"`, sau đó `int()`
 
 # %%
 print(int("10"), float("10.5"))    # ep duoc vi dung dang so: 10 10.5
@@ -131,7 +131,7 @@ print(int("10" + "5"))             # noi chuoi truoc roi moi ep: 105
 # ### Bài tập 1.1 — Điểm trung bình
 #
 # Có hai bộ điểm ba môn Toán, Lý, Hoá. Với mỗi bộ, gán biến `diem_tb_*` bằng trung
-# bình cộng ba môn. Chưa làm tròn — phép làm tròn được giới thiệu ở Bài 2.
+# bình cộng ba môn.
 
 # %%
 toan_1, ly_1, hoa_1 = 8, 9, 10
@@ -163,17 +163,14 @@ kiem_tra_1_2(noi_chuoi, tong_so)
 # ---
 # ## Bài 2 — Toán tử, chuỗi và ép kiểu
 #
-# Toán tử số học: `+` `-` `*` `/` `//` `%` `**`.
+# Toán tử số học: `+` cộng, `-` trừ `*` nhân, `/` chia, `//` chia lấy phần nguyên, `%` chia lấy phần dư, `**` lũy thừa(mũ).
 #
-# - `/` luôn trả về `float`, kể cả `10 / 2` cho `5.0`.
-# - `//` chia lấy phần nguyên, `%` lấy phần dư — hay dùng để chia chu kỳ, đổi đơn vị.
-# - `**` là lũy thừa.
+# - `/` luôn trả về `float`, VD `10 / 2` cho `5.0`.
+# - `//`, `%` — hay dùng để chia chu kỳ, đổi đơn vị.
 #
 # f-string ghép chuỗi bằng cách đặt `f` trước dấu nháy rồi nhúng biểu thức trong
-# `{}`. Ghép bằng `+` phải tự gọi `str()` cho từng số, quên một chỗ là `TypeError`;
+# `{}`. Thay vì Ghép bằng `+`, phải tự gọi `str()` cho từng số;
 # f-string tự làm việc đó, nên ngắn hơn và ít lỗi hơn.
-#
-# Ép kiểu: `int()`, `float()`, `str()`.
 
 # %%
 tong_giay = 3725
@@ -190,7 +187,7 @@ print(f"Thoi gian chay: {gio_vd} gio {phut_vd} phut {giay_vd} giay")
 # 1. `a == (a // b) * b + a % b` luôn đúng: `//` cho thương, `%` cho số dư.
 # 2. `a % b` luôn nằm trong khoảng từ `0` đến `b - 1`. Dùng để bắt phần dư sau khi
 #    chia hết cho một chu kỳ, ví dụ `gio % 24` luôn ra giờ trong ngày, từ 0 đến 23.
-# 3. `//` giữa hai `int` cho `int`. Có một toán hạng là `float` thì kết quả cũng là
+# 3. `//` giữa hai `int` cho `int`. Còn 2 toán hạng trong đó có 1 là `float` thì kết quả cũng là
 #    `float`: `7.0 // 2` ra `3.0`.
 # 4. Với số âm, `//` làm tròn về phía âm vô cực: `-7 // 2` ra `-4`.
 
@@ -201,9 +198,7 @@ print(7.0 // 2)                               # 3.0 - float vi co toan hang floa
 print(-7 // 2)                                # -4 - lam tron ve am vo cuc
 
 # %% [markdown]
-# `round(gia_tri, so_chu_so)` làm tròn *giá trị* của một số. Định dạng `{x:.2f}`
-# trong f-string chỉ đổi *cách hiển thị*, giá trị gốc của biến không đổi. Khi đề bài
-# yêu cầu trả về một số đã làm tròn (không phải chỉ in ra), phải dùng `round()`.
+# `round(giá trị, số chữ số dc làm tròn đến)` làm tròn *giá trị* của một số. Trong f-string, có thể thay round(,) bằng `{x:.2f}` sẽ cho giá trị gốc của biến không đổi(cũng là làm tròn đến 2 chứ số). Khi đề bài yêu cầu trả về một số đã làm tròn (không phải chỉ in ra), phải dùng `round()`.
 
 # %%
 gia_goc = 21.5 / 3
@@ -234,7 +229,7 @@ kiem_tra_2_1(moi_nguoi_tra_1, moi_nguoi_tra_2)
 # %% [markdown]
 # ### Bài tập 2.2 — Báo cáo quãng đường
 #
-# Gán `bao_cao` bằng một chuỗi đúng theo mẫu:
+# Gán `bao_cao` bằng một chuỗi(f-string) đúng theo mẫu:
 #
 # ```
 # Xe đã đi được {quang_duong} mét trong {thoi_gian} giây.
@@ -254,8 +249,7 @@ kiem_tra_2_2(bao_cao)
 # %% [markdown]
 # ### Ô tự do — thử `input()`
 #
-# Ô này không chấm điểm. Bỏ dấu `#` để chạy thử. Khi chạy, notebook sẽ dừng lại chờ
-# bạn gõ vào ô nhập hiện ra bên dưới.
+# Ô này không chấm điểm. Bỏ dấu `#` để chạy thử.
 
 # %%
 # tong = float(input("Tong hoa don: "))
@@ -282,9 +276,9 @@ kiem_tra_2_3(gio, phut, giay)
 # ---
 # ## Bài 3 — Boolean và câu lệnh điều kiện
 #
-# Toán tử so sánh cho ra `True`/`False`: `==` `!=` `>` `<` `>=` `<=`.
+# Toán tử so sánh cho ra `True`/`False`: `==` (bằng), `!=` (khác(ko bằng)), `>` , `<` , `>=` (lớn hơn hoặc bằng), `<=` (bé hơn hoặc bằng).
 #
-# Toán tử logic: `and` (cả hai đúng), `or` (một trong hai đúng), `not` (đảo ngược).
+# Toán tử logic: `and` (cả hai đúng), `or` (một trong hai đúng), `not` (đảo ngược từ đúng thành sai và ngược lại).
 #
 # Cấu trúc rẽ nhánh:
 #
@@ -299,7 +293,7 @@ kiem_tra_2_3(gio, phut, giay)
 #
 # Python dùng thụt lề để xác định khối lệnh, không dùng ngoặc nhọn. Thụt lề sai thì
 # Python báo `IndentationError` và dừng chạy. PEP 8 quy định 4 dấu cách cho mỗi cấp
-# thụt lề.
+# thụt lề. Ấn TAB để thụt lề đúng.
 #
 # Các nhánh `if / elif / else` được xét lần lượt từ trên xuống, gặp nhánh đúng đầu
 # tiên là dừng — nên thứ tự các nhánh quyết định kết quả.
@@ -345,7 +339,7 @@ khoang_cach_b = 2.0
 khoang_cach_c = 5.0
 khoang_cach_d = 12.0
 
-trang_thai_a = None  # TODO
+trang_thai_a = None  # TODO(điền trực tiếp kết quả thay cho None, ko yêu cầu code)
 trang_thai_b = None  # TODO
 trang_thai_c = None  # TODO
 trang_thai_d = None  # TODO
