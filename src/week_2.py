@@ -55,8 +55,8 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # ---
 # ## Bài 1 — Hàm (Functions) và phạm vi biến (Scope)
 #
-# Hàm là một khối code có tên, nhận đầu vào (tham số), trả về đầu ra (`return`), và
-# có thể gọi lại nhiều lần mà không phải chép lại cùng một đoạn code ở nhiều chỗ.
+# `def` và `return` đã dùng ở tuần 1. Bài này thêm hai thứ: tham số mặc định, và
+# quy tắc biến nào sống ở đâu.
 #
 # ```python
 # def ten_ham(tham_so_1, tham_so_2=gia_tri_mac_dinh):

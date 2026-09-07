@@ -18,11 +18,10 @@
 # 1. Khai báo biến đúng quy ước và phân biệt 4 kiểu dữ liệu cơ bản.
 # 2. Dùng thành thạo toán tử số học và định dạng chuỗi bằng f-string.
 # 3. Viết được logic ra quyết định bằng `if / elif / else`.
+# 4. Gói một khối lệnh thành hàm bằng `def` và `return`, gọi lại với nhiều đầu vào.
 #
-# Đọc phần lý thuyết, chạy ô ví dụ để xem kết quả, rồi làm ô bài tập. Mỗi bài tập có
-# một ô kiểm tra ngay bên dưới.
-#
-# **Quy tắc:** không sửa nội dung các ô kiểm tra. Chỉ viết code vào chỗ có `# TODO`.
+# **Quy tắc:** không sửa nội dung các ô kiểm tra. Chỉ viết code vào chỗ có `# TODO`
+# hoặc chỗ được đánh dấu là chỗ viết của bạn.
 
 # %%
 # Ô thiết lập - chạy đầu tiên, mỗi lần mở notebook.
@@ -51,10 +50,49 @@ from tests.test_week1 import (
     kiem_tra_2_3,
     kiem_tra_3_1,
     kiem_tra_3_2,
+    kiem_tra_4_1,
+    kiem_tra_4_2,
     kiem_tra_du_an,
 )
 
 print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
+
+# %% [markdown]
+# ---
+# ## Cách làm bài và chấm bài
+#
+# Mỗi bài tập gồm hai ô đi liền nhau: ô bạn viết code, và ô kiểm tra ngay dưới nó.
+# Ô kiểm tra đọc các biến hoặc hàm mà ô trên tạo ra, nên **tên phải khớp từng chữ**.
+#
+# Chạy thử một lượt với bài mẫu dưới đây trước khi vào bài thật.
+#
+# Đề: gán biến `vi_du_tong` bằng tổng của `3` và `4`.
+
+# %%
+vi_du_tong = None  # sửa dòng này: thay None bằng 3 + 4
+
+# %% [markdown]
+# Ô ngay trên là chỗ bạn viết. Sửa `None` thành `3 + 4`, rồi bấm Shift+Enter để chạy
+# ô đó. Sau đó bấm Shift+Enter tiếp ở ô dưới đây để chấm.
+
+# %%
+if vi_du_tong == 7:
+    print("PASS - ban da lam dung, sang Bai 1 duoc roi")
+else:
+    print(f"FAIL - mong doi 7, thuc te {vi_du_tong}")
+
+# %% [markdown]
+# Ba điều rút ra, áp dụng cho mọi bài trong khoá:
+#
+# 1. Sửa xong ô code phải **chạy lại chính ô đó** rồi mới chạy ô kiểm tra. Bỏ qua
+#    bước này thì ô kiểm tra vẫn đọc giá trị cũ, và bạn sẽ thấy FAIL dù đã sửa đúng.
+# 2. Chưa làm gì mà chạy ô kiểm tra thì nó báo FAIL kèm dòng "thực tế: None". Đó là
+#    trạng thái bình thường lúc mới mở notebook.
+# 3. Dòng "mong đợi" trong báo lỗi cho biết đáp án đúng phải trông ra sao. So nó với
+#    dòng "thực tế" để biết lệch ở đâu.
+#
+# Chạy lại cả notebook từ đầu bằng `Runtime > Restart and run all` nếu thấy kết quả
+# lộn xộn không giải thích được.
 
 # %% [markdown]
 # ---
@@ -324,149 +362,181 @@ print(f"Khoang cach {khoang_cach} m -> {trang_thai_vi_du}")
 # %% [markdown]
 # ### Bài tập 3.1 — Cảnh báo vật cản
 #
-# Có bốn khoảng cách cho sẵn. Với mỗi khoảng cách, viết một khối `if/elif/else`
-# riêng và gán kết quả vào `trang_thai_*` theo bảng:
+# Cho `khoang_cach = 3.7`. Viết một khối `if/elif/else` gán kết quả vào biến
+# `trang_thai` theo bảng:
 #
 # | Điều kiện | Kết quả |
 # |---|---|
 # | `khoang_cach <= 2.0` | `"PHANH_KHAN_CAP"` |
 # | `khoang_cach <= 5.0` | `"GIAM_TOC"` |
 # | còn lại | `"AN_TOAN"` |
+#
+# Ô kiểm tra đọc biến `trang_thai`, nên tên biến phải đúng từng chữ.
 
 # %%
-khoang_cach_a = 0.5
-khoang_cach_b = 2.0
-khoang_cach_c = 5.0
-khoang_cach_d = 12.0
+khoang_cach = 3.7
 
-# Khởi tạo sẵn để ô kiểm tra chạy được ngay cả khi bạn chưa làm gì.
-trang_thai_a = None
-trang_thai_b = None
-trang_thai_c = None
-trang_thai_d = None
+trang_thai = None  # khởi tạo sẵn, để ô kiểm tra chạy được khi bạn chưa làm gì
 
-# ---------- Trường hợp a: làm sẵn để bạn xem mẫu ----------
-if khoang_cach_a <= 2.0:
-    trang_thai_a = "PHANH_KHAN_CAP"
-elif khoang_cach_a <= 5.0:
-    trang_thai_a = "GIAM_TOC"
-else:
-    trang_thai_a = "AN_TOAN"
-
-# ---------- Trường hợp b: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
-
-
-# ---------- Trường hợp c: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
-
-
-# ---------- Trường hợp d: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+# Viết khối if/elif/else của bạn vào ngay dưới dòng này:
 
 
 # %%
-kiem_tra_3_1(trang_thai_a, trang_thai_b, trang_thai_c, trang_thai_d)
+kiem_tra_3_1(trang_thai)
 
 # %% [markdown]
-# ### Bài tập 3.2 — Giá vé xem phim
+# ### Bài tập 3.2 — Giới hạn tốc độ
 #
-# Có ba khách cho sẵn tuổi và suất chiếu (`la_buoi_toi` là `True`/`False`). Với mỗi
-# khách, gán `gia_ve_*` (số nguyên, đơn vị VND) theo bảng:
+# Giới hạn phụ thuộc hai thứ: loại đường và trời có mưa hay không.
 #
-# | Độ tuổi | Suất sáng | Suất tối |
+# | `loai_duong` | Khô ráo | Trời mưa |
 # |---|---|---|
-# | dưới 6 | 0 | 0 |
-# | 6 đến 12 | 45000 | 60000 |
-# | 13 đến 59 | 75000 | 100000 |
-# | từ 60 trở lên | 50000 | 50000 |
+# | `"khu_truong_hoc"` | 30 | 30 |
+# | `"khu_dan_cu"` | 50 | 40 |
+# | `"duong_tinh"` | 80 | 60 |
+# | `"cao_toc"` | 120 | 90 |
+#
+# Cho `loai_duong = "duong_tinh"` và `troi_mua = True`. Gán `gioi_han` bằng số
+# km/h tương ứng (số nguyên).
+#
+# Bảng có hai chiều nên khối của bạn cũng có hai tầng: tầng ngoài xét `loai_duong`,
+# bên trong mỗi nhánh mới xét `troi_mua`. Riêng `"khu_truong_hoc"` cho cùng một số
+# ở cả hai cột nên nhánh đó không cần tầng trong.
 
 # %%
-tuoi_1, la_buoi_toi_1 = 4, False
-tuoi_2, la_buoi_toi_2 = 10, True
-tuoi_3, la_buoi_toi_3 = 70, True
+loai_duong = "duong_tinh"
+troi_mua = True
 
-# Khởi tạo sẵn để ô kiểm tra chạy được ngay cả khi bạn chưa làm gì.
-gia_ve_1 = None
-gia_ve_2 = None
-gia_ve_3 = None
+gioi_han = None  # khởi tạo sẵn, để ô kiểm tra chạy được khi bạn chưa làm gì
 
-# ---------- Khách 1: làm sẵn để bạn xem mẫu ----------
-# Bảng có hai chiều: trước hết chia theo tuổi, trong mỗi bậc tuổi mới xét suất chiếu.
-if tuoi_1 < 6:
-    gia_ve_1 = 0
-elif tuoi_1 <= 12:
-    if la_buoi_toi_1:
-        gia_ve_1 = 60000
-    else:
-        gia_ve_1 = 45000
-elif tuoi_1 <= 59:
-    if la_buoi_toi_1:
-        gia_ve_1 = 100000
-    else:
-        gia_ve_1 = 75000
-else:
-    gia_ve_1 = 50000
-
-# ---------- Khách 2: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
-
-
-# ---------- Khách 3: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+# Viết khối if/elif/else của bạn vào ngay dưới dòng này:
 
 
 # %%
-kiem_tra_3_2(gia_ve_1, gia_ve_2, gia_ve_3)
+kiem_tra_3_2(gioi_han)
+
+# %% [markdown]
+# ---
+# ## Bài 4 — Hàm
+#
+# Bài 3.1 phân loại đúng một khoảng cách: `3.7`. Muốn biết `0.5` cho ra gì thì phải
+# sửa `khoang_cach` rồi chạy lại ô, và kết quả cũ mất đi. Muốn giữ cả hai kết quả
+# cùng lúc thì phải chép nguyên khối `if/elif/else` thêm một lần nữa với tên biến
+# khác. Bốn khoảng cách là bốn bản chép.
+#
+# Hàm là cách đặt tên cho một khối code để gọi lại nhiều lần với đầu vào khác nhau.
+
+# %%
+def phan_loai_vi_du(khoang_cach):     # def: bắt đầu định nghĩa. Trong ngoặc là tham số
+    if khoang_cach <= 2.0:
+        ket_qua = "PHANH_KHAN_CAP"
+    elif khoang_cach <= 5.0:
+        ket_qua = "GIAM_TOC"
+    else:
+        ket_qua = "AN_TOAN"
+    return ket_qua                    # return: gửi giá trị ra ngoài cho nơi gọi
+
+
+print(phan_loai_vi_du(0.5))
+print(phan_loai_vi_du(3.7))
+print(phan_loai_vi_du(12.0))
+
+# %% [markdown]
+# Một khối code, ba lần gọi, ba kết quả. Không chép dòng nào.
+#
+# Đọc kết quả in ra: lần gọi `phan_loai_vi_du(0.5)` cho `PHANH_KHAN_CAP`, lần
+# `phan_loai_vi_du(3.7)` cho `GIAM_TOC`, lần `phan_loai_vi_du(12.0)` cho `AN_TOAN`.
+# Mỗi lần gọi, giá trị trong ngoặc được gán vào tham số `khoang_cach`, khối lệnh
+# chạy lại từ đầu với giá trị đó.
+
+# %% [markdown]
+# Tính chất của hàm:
+#
+# 1. `def ten_ham(thamso1, thamso2):` khai báo hàm. Dòng `def` kết thúc bằng dấu hai
+#    chấm `:`, và toàn bộ thân hàm phải thụt vào 4 dấu cách.
+# 2. Định nghĩa hàm không chạy thân hàm. Thân hàm chỉ chạy khi có lời gọi
+#    `ten_ham(...)`.
+# 3. `return gia_tri` kết thúc hàm ngay tại đó và gửi `gia_tri` ra cho nơi gọi.
+#    Các dòng sau `return` trong cùng nhánh không bao giờ chạy.
+# 4. Hàm không có `return` thì trả về `None`. Đây là lỗi hay gặp nhất: tính đúng
+#    hết rồi nhưng quên `return`, ô kiểm tra báo "thực tế: None".
+# 5. Tham số chỉ tồn tại bên trong hàm. Bên ngoài gọi tên đó thì Python báo
+#    `NameError`.
+
+# %%
+def khong_co_return(x):
+    ket_qua = x * 2       # tính đúng nhưng không gửi ra ngoài
+
+
+def co_return(x):
+    return x * 2
+
+
+print(khong_co_return(5))   # None - tinh chat 4
+print(co_return(5))         # 10
+
+# %% [markdown]
+# ### Bài tập 4.1 — Hàm cảnh báo vật cản
+#
+# Viết hàm `canh_bao_vat_can(khoang_cach)` trả về đúng chuỗi mà bài 3.1 yêu cầu,
+# theo cùng bảng ngưỡng.
+#
+# Đây là bài 3.1 viết lại thành hàm. Logic giữ nguyên, việc của bạn là bọc nó trong
+# `def` và đổi dòng gán cuối thành `return`. Bộ chấm sẽ tự gọi hàm với năm khoảng
+# cách khác nhau, gồm cả hai giá trị biên `2.0` và `5.0`.
+
+# %%
+def canh_bao_vat_can(khoang_cach):
+    # TODO: khối if/elif/else như bài 3.1, kết thúc bằng return
+    pass
+
+
+# %%
+kiem_tra_4_1(canh_bao_vat_can)
+
+# %% [markdown]
+# ### Bài tập 4.2 — Hàm giới hạn tốc độ
+#
+# Viết hàm `gioi_han_toc_do(loai_duong, troi_mua)` trả về số km/h theo đúng bảng ở
+# bài 3.2. Hàm này nhận hai tham số, ngăn cách bằng dấu phẩy.
+#
+# Bộ chấm gọi hàm bảy lần, phủ cả bốn loại đường và cả hai điều kiện thời tiết.
+
+# %%
+def gioi_han_toc_do(loai_duong, troi_mua):
+    # TODO: khối if/elif/else hai tầng như bài 3.2, kết thúc bằng return
+    pass
+
+
+# %%
+kiem_tra_4_2(gioi_han_toc_do)
 
 # %% [markdown]
 # ---
 # ## Dự án tuần 1 — Bộ ra quyết định lái xe
 #
-# Ghép cả ba bài lại. Có bốn tình huống, mỗi tình huống gồm khoảng cách vật cản
-# (mét), tốc độ (km/h), mức pin (%). Với mỗi tình huống, gán `lenh_*` bằng một trong
-# bốn mã lệnh, xét theo đúng thứ tự ưu tiên sau:
+# Viết hàm `quyet_dinh_lai_xe(khoang_cach, toc_do, muc_pin)` trả về một trong bốn
+# mã lệnh, xét theo đúng thứ tự ưu tiên sau:
 #
 # 1. `khoang_cach <= 2.0` → `"DUNG_KHAN_CAP"`
 # 2. `muc_pin < 15` → `"VE_TRAM_SAC"`
 # 3. `khoang_cach <= 5.0` hoặc `toc_do > 60` → `"GIAM_TOC"`
 # 4. còn lại → `"BINH_THUONG"`
 #
-# An toàn luôn được xét trước năng lượng: xe sắp hết pin nhưng có vật cản ngay
-# trước mặt thì vẫn phải dừng khẩn cấp trước đã — tình huống `lenh_1` bên dưới kiểm
-# tra đúng chỗ này.
+# Thứ tự này là một phần của đề bài. An toàn xét trước năng lượng: xe sắp hết pin
+# nhưng có vật cản ngay trước mặt thì vẫn phải dừng khẩn cấp. Viết `elif` theo đúng
+# thứ tự trên là tự khắc đúng.
+#
+# Điều kiện 3 cần `or`, vì chỉ cần một trong hai vế đúng là đủ.
 
 # %%
-khoang_cach_1, toc_do_1, muc_pin_1 = 1.5, 30, 5
-khoang_cach_2, toc_do_2, muc_pin_2 = 20.0, 40, 10
-khoang_cach_3, toc_do_3, muc_pin_3 = 30.0, 75, 90
-khoang_cach_4, toc_do_4, muc_pin_4 = 30.0, 50, 90
-
-# Khởi tạo sẵn để ô kiểm tra chạy được ngay cả khi bạn chưa làm gì.
-lenh_1 = None
-lenh_2 = None
-lenh_3 = None
-lenh_4 = None
-
-# Dự án không làm mẫu sẵn. Bài 3.1 và 3.2 đã đi qua đúng cấu trúc này hai lần.
-# Khối của bạn có dạng:
-#     if <điều kiện ưu tiên 1>:
-#         lenh_N = "..."
-#     elif <điều kiện ưu tiên 2>:
-#         ...
-#     else:
-#         lenh_N = "BINH_THUONG"
-# Bốn điều kiện và thứ tự ưu tiên nằm ở phần đề bài ngay trên.
-
-# ---------- Tình huống 1: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
-
-
-# ---------- Tình huống 2: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
-
-
-# ---------- Tình huống 3: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
-
-
-# ---------- Tình huống 4: viết khối if/elif/else của bạn vào ngay dưới dòng này ----------
+def quyet_dinh_lai_xe(khoang_cach, toc_do, muc_pin):
+    # TODO: if/elif/else theo đúng 4 mức ưu tiên trên, kết thúc bằng return
+    pass
 
 
 # %%
-kiem_tra_du_an(lenh_1, lenh_2, lenh_3, lenh_4)
+kiem_tra_du_an(quyet_dinh_lai_xe)
 
 # %% [markdown]
 # ---
@@ -481,19 +551,16 @@ ket_qua = [
     kiem_tra_2_1(moi_nguoi_tra_1, moi_nguoi_tra_2),
     kiem_tra_2_2(bao_cao),
     kiem_tra_2_3(gio, phut, giay),
-    kiem_tra_3_1(trang_thai_a, trang_thai_b, trang_thai_c, trang_thai_d),
-    kiem_tra_3_2(gia_ve_1, gia_ve_2, gia_ve_3),
-    kiem_tra_du_an(lenh_1, lenh_2, lenh_3, lenh_4),
+    kiem_tra_3_1(trang_thai),
+    kiem_tra_3_2(gioi_han),
+    kiem_tra_4_1(canh_bao_vat_can),
+    kiem_tra_4_2(gioi_han_toc_do),
+    kiem_tra_du_an(quyet_dinh_lai_xe),
 ]
 
 print(f"\nTONG KET TUAN 1: {sum(ket_qua)}/{len(ket_qua)} bai dat.")
 
 # %% [markdown]
-# Nhìn lại bài tập 3.1 và dự án: mỗi tình huống là một khối `if/elif/else` chép lại
-# gần y hệt, chỉ khác tên biến đầu vào và biến kết quả. Bốn tình huống thì chép bốn
-# lần; nếu có mười tình huống, phải chép mười lần. Tuần 2 gói khối đó lại thành một
-# hàm, gọi lại bao nhiêu lần cũng chỉ viết logic một lần duy nhất.
-#
 # ### Nộp bài
 #
 # 1. `File > Save a copy in Drive` nếu bạn muốn giữ bản nháp riêng.
