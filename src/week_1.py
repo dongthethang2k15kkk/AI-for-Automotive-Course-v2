@@ -467,8 +467,14 @@ print(co_return(5))         # 10
 # %% [markdown]
 # ### Bài tập 4.1 — Hàm cảnh báo vật cản
 #
-# Viết hàm `canh_bao_vat_can(khoang_cach)` trả về đúng chuỗi mà bài 3.1 yêu cầu,
-# theo cùng bảng ngưỡng.
+# Viết hàm `canh_bao_vat_can(khoang_cach)` trả về đúng chuỗi theo bảng ngưỡng của
+# bài 3.1:
+#
+# | Điều kiện | Kết quả |
+# |---|---|
+# | `khoang_cach <= 2.0` | `"PHANH_KHAN_CAP"` |
+# | `khoang_cach <= 5.0` | `"GIAM_TOC"` |
+# | còn lại | `"AN_TOAN"` |
 #
 # Đây là bài 3.1 viết lại thành hàm. Logic giữ nguyên, việc của bạn là bọc nó trong
 # `def` và đổi dòng gán cuối thành `return`. Bộ chấm sẽ tự gọi hàm với năm khoảng
@@ -477,7 +483,7 @@ print(co_return(5))         # 10
 # %%
 def canh_bao_vat_can(khoang_cach):
     # TODO: khối if/elif/else như bài 3.1, kết thúc bằng return
-    pass
+    pass #Bỏ pass khi hoàn thiện hàm
 
 
 # %%
@@ -489,12 +495,19 @@ kiem_tra_4_1(canh_bao_vat_can)
 # Viết hàm `gioi_han_toc_do(loai_duong, troi_mua)` trả về số km/h theo đúng bảng ở
 # bài 3.2. Hàm này nhận hai tham số, ngăn cách bằng dấu phẩy.
 #
+# | `loai_duong` | Khô ráo | Trời mưa |
+# |---|---|---|
+# | `"khu_truong_hoc"` | 30 | 30 |
+# | `"khu_dan_cu"` | 50 | 40 |
+# | `"duong_tinh"` | 80 | 60 |
+# | `"cao_toc"` | 120 | 90 |
+#
 # Bộ chấm gọi hàm bảy lần, phủ cả bốn loại đường và cả hai điều kiện thời tiết.
 
 # %%
 def gioi_han_toc_do(loai_duong, troi_mua):
     # TODO: khối if/elif/else hai tầng như bài 3.2, kết thúc bằng return
-    pass
+    pass  #Bỏ pass khi hoàn thiện hàm
 
 
 # %%
@@ -521,7 +534,7 @@ kiem_tra_4_2(gioi_han_toc_do)
 # %%
 def quyet_dinh_lai_xe(khoang_cach, toc_do, muc_pin):
     # TODO: if/elif/else theo đúng 4 mức ưu tiên trên, kết thúc bằng return
-    pass
+    pass  #Bỏ pass khi hoàn thiện hàm
 
 
 # %%
@@ -531,7 +544,7 @@ kiem_tra_du_an(quyet_dinh_lai_xe)
 # ---
 # ## Tổng kết tuần 1
 #
-# Chạy ô dưới để kiểm tra toàn bộ bài trong tuần. Đạt hết mới coi là xong.
+# Chạy ô dưới để kiểm tra toàn bộ bài trong tuần.
 
 # %%
 ket_qua = [
