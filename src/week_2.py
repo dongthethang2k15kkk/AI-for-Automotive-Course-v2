@@ -83,33 +83,34 @@ print(tinh_goc_danh_lai(10, 5))     # truyền đủ 2 tham số
 print(tinh_goc_danh_lai(do_lech_lan=-5))  # gọi bằng keyword argument
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# Đọc kết quả: lệnh đầu không truyền `goc_co_ban` nên dùng mặc định `0`, ra
+# `0 + 10*1.5 = 15.0`. Lệnh hai truyền `goc_co_ban=5`, ra `5 + 10*1.5 = 20.0`. Lệnh
+# ba gọi bằng `do_lech_lan=-5` (keyword argument — gọi kèm tên tham số, không cần
+# đúng thứ tự khai báo), `goc_co_ban` vẫn dùng mặc định `0`, ra `0 + (-5)*1.5 = -7.5`.
 #
-# **1. Tưởng biến trong hàm ảnh hưởng ra ngoài.** Biến cục bộ chết theo hàm, không
-# tự động cập nhật ra ngoài.
+# Tính chất của tham số mặc định:
 #
-# **2. Tham số mặc định là list/dict.** Đừng bao giờ viết
-# `def them(item, ds=[])`. Giá trị mặc định chỉ được tạo **một lần duy nhất** lúc
-# định nghĩa hàm, nên mọi lần gọi hàm mà không truyền `ds` sẽ **dùng chung một list**,
-# gây lỗi rất khó phát hiện. Cách đúng: dùng `None` làm mặc định, rồi tạo list mới
-# bên trong hàm.
-#
-# **3. Tham số có mặc định phải đứng sau tham số không có mặc định** — viết ngược
-# thứ tự sẽ báo lỗi cú pháp ngay.
+# 1. Không truyền tham số có mặc định thì hàm tự lấy giá trị mặc định. Truyền vào
+#    thì giá trị truyền đè lên mặc định, không cộng dồn.
+# 2. Tham số có mặc định phải đứng sau tham số không có mặc định trong `def`. Viết
+#    ngược thứ tự báo `SyntaxError` ngay khi định nghĩa hàm, chưa cần gọi.
+# 3. Giá trị mặc định được tạo **đúng một lần**, ngay lúc Python đọc dòng `def`,
+#    không tạo lại mỗi lần gọi hàm.
+# 4. Hệ quả của tính chất 3: nếu mặc định là `list`/`dict` (`ds=[]`), mọi lần gọi
+#    không truyền `ds` đều dùng chung **một** list đó. Sửa bằng cách đặt mặc định
+#    là `None`, rồi tạo list mới bên trong hàm.
 
 # %%
-# Bẫy tham số mặc định dùng chung - MINH HOẠ LỖI, không nên viết thế này
-def them_loi(item, ds=[]):
+def them_loi(item, ds=[]):        # BAY: list rong nay chi tao 1 lan duy nhat
     ds.append(item)
     return ds
 
 
 print(them_loi("a"))  # ['a']
-print(them_loi("b"))  # ['a', 'b']  <- bug: lẽ ra phải là ['b'] nếu gọi độc lập
+print(them_loi("b"))  # ['a', 'b']  <- bug: hai lan goi doc lap nhung dung chung 1 list
 
 
-# Cách viết đúng
-def them_dung(item, ds=None):
+def them_dung(item, ds=None):     # sua: mac dinh la None, tao list moi ben trong
     if ds is None:
         ds = []
     ds.append(item)
@@ -117,7 +118,30 @@ def them_dung(item, ds=None):
 
 
 print(them_dung("a"))  # ['a']
-print(them_dung("b"))  # ['b']  <- đúng, độc lập mỗi lần gọi
+print(them_dung("b"))  # ['b']  <- dung, doc lap moi lan goi
+
+# %% [markdown]
+# Phạm vi biến (scope) qua ba mốc — theo dõi `so_du` khi hàm `rut_tien` chạy:
+#
+# | Mốc | `so_du` (ngoài hàm) | Đang diễn ra |
+# |---|---|---|
+# | 1 | `1000` | trước khi gọi `rut_tien(1000, 200)` |
+# | 2 | `1000` (không đổi) | bên trong hàm, tham số `so_du` cục bộ = `1000`, tính `so_du - so_tien = 800`, `return 800` |
+# | 3 | `1000` (vẫn không đổi) | sau khi gọi xong; kết quả `800` chỉ tồn tại nếu được gán lại: `so_du = rut_tien(so_du, 200)` |
+#
+# Biến `so_du` bên trong hàm và `so_du` bên ngoài hàm là hai biến khác nhau, dù
+# trùng tên. Gán lại bên trong hàm không đụng tới biến bên ngoài.
+
+# %%
+def rut_tien(so_du, so_tien):
+    so_du = so_du - so_tien   # day la so_du CUC BO, rieng voi so_du ben ngoai
+    return so_du
+
+
+so_du = 1000
+ket_qua = rut_tien(so_du, 200)
+print("so_du ben ngoai sau khi goi ham:", so_du)   # 1000 - khong doi
+print("gia tri ham tra ve:", ket_qua)              # 800
 
 # %% [markdown]
 # ### Bài tập 1.1 — Áp dụng giảm giá
@@ -153,48 +177,90 @@ kiem_tra_1_2(nhan_sat_thuong)
 # ---
 # ## Bài 2 — Chuỗi tuần tự (Sequences) và vòng lặp
 #
-# `ds[i]` truy cập theo chỉ số, bắt đầu từ 0. Chỉ số âm đếm từ cuối lên: `ds[-1]`
-# là phần tử cuối, `ds[-2]` là phần tử áp chót. `ds[start:stop:step]` cắt lát;
-# `ds[-3:]` là ba phần tử cuối, `ds[::-1]` đảo ngược toàn bộ list. `.append()` thêm
-# cuối, `.pop()` lấy ra và xoá phần tử cuối, `.remove(x)` xoá theo giá trị.
+# `ds[i]` truy cập theo chỉ số, bắt đầu từ `0`. Chỉ số âm đếm từ cuối lên: `ds[-1]`
+# là phần tử cuối, `ds[-2]` là phần tử áp chót.
 #
-# `for` duyệt qua từng phần tử của một list/string/`range()`. `while` lặp theo
-# điều kiện, phải tự cập nhật biến điều kiện để tránh lặp vô hạn.
+# `ds[start:stop:step]` cắt lát, trả về list mới, không đổi `ds` gốc:
 #
-# `break` thoát hẳn vòng lặp. `continue` bỏ qua phần còn lại của lượt lặp hiện
-# tại, nhảy sang lượt tiếp theo.
+# 1. Lấy từ chỉ số `start` đến `stop - 1`, không lấy tới `stop`.
+# 2. `len(ds[a:b])` bằng đúng `b - a`.
+# 3. Bỏ trống `start` là lấy từ đầu, bỏ trống `stop` là lấy tới cuối: `ds[:3]`,
+#    `ds[-3:]`.
+# 4. `step` âm đảo chiều duyệt: `ds[::-1]` đảo ngược toàn bộ list.
 
 # %%
 lidar_readings = [5.2, 3.1, 0.8, 4.5, 1.2, 0.3]
+
+print("Gia tri cuoi:", lidar_readings[-1])                        # 0.3
+print("Ba gia tri cuoi:", lidar_readings[-3:])                    # [4.5, 1.2, 0.3]
+print("Dao nguoc thu tu:", lidar_readings[::-1])
+print("So phan tu cua lat cat [1:4]:", len(lidar_readings[1:4]))  # 3 = 4 - 1
+
+# %% [markdown]
+# `for` duyệt qua từng phần tử của list, không cần biết chỉ số. `.append()` thêm
+# một phần tử vào cuối list.
+
+# %%
 canh_bao = []
 
 for khoang_cach in lidar_readings:
     if khoang_cach < 1.0:
         print(f"Nguy hiem! Vat can o {khoang_cach} m")
-        canh_bao.append(khoang_cach)  
+        canh_bao.append(khoang_cach)
 
 print("Cac khoang cach can chu y:", canh_bao)
-print("Gia tri cuoi:", lidar_readings[-1])
-print("Ba gia tri cuoi:", lidar_readings[-3:])
-print("Dao nguoc thu tu:", lidar_readings[::-1])
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# `while` lặp theo điều kiện, không theo số phần tử — phải tự cập nhật biến điều
+# kiện bên trong vòng lặp, thiếu bước này thì lặp vô hạn.
 #
-# **1. Sai chỉ số (off-by-one).** `range(len(ds))` chạy từ `0` đến `len(ds) - 1`,
-# không phải đến `len(ds)`.
+# `break` thoát hẳn vòng lặp ngay lập tức, không chạy nốt các lượt còn lại dù điều
+# kiện `while` vẫn đúng. `continue` chỉ bỏ qua phần còn lại của lượt hiện tại,
+# vòng lặp vẫn tiếp tục ở lượt sau.
+
+# %%
+pin = 100
+buoc = 0
+
+while pin > 0:
+    buoc += 1
+    pin -= 15
+    if pin == 40:
+        print(f"Buoc {buoc}: pin con {pin}%, bo qua canh bao rieng")
+        continue
+    if pin <= 10:
+        print(f"Buoc {buoc}: pin con {pin}%, DUNG KHAN CAP")
+        break
+    print(f"Buoc {buoc}: pin con {pin}%")
+
+# %% [markdown]
+# Vết chạy, bắt đầu `pin = 100`:
 #
-# **2. Sửa list ngay trong lúc đang duyệt nó bằng `for`.** Xoá/thêm phần tử của
-# chính list đang duyệt làm chỉ số bị lệch, bỏ sót hoặc lặp lại phần tử. Muốn lọc,
-# hãy tạo list mới (như ví dụ trên) thay vì sửa list gốc khi đang duyệt.
+# | Bước | `pin` sau `-= 15` | So điều kiện | Việc |
+# |---|---|---|---|
+# | 1 | 85 | khác 40, > 10 | in dòng cuối |
+# | 2 | 70 | khác 40, > 10 | in dòng cuối |
+# | 3 | 55 | khác 40, > 10 | in dòng cuối |
+# | 4 | 40 | bằng 40 | in rồi `continue` — bỏ qua dòng in cuối, sang bước 5 |
+# | 5 | 25 | khác 40, > 10 | in dòng cuối |
+# | 6 | 10 | <= 10 | in rồi `break` — dừng hẳn |
 #
-# **3. Vòng `while` quên cập nhật điều kiện** → lặp vô hạn, Colab bị treo (bấm nút
-# dừng để ngắt).
+# Vòng lặp dừng ở bước 6 dù `pin > 0` vẫn đúng (`10 > 0`): `break` cắt ngang, không
+# chờ điều kiện `while` sai.
+#
+# Lỗi thường gặp: dùng `range(len(ds))` để lấy chỉ số thì vòng chạy từ `0` đến
+# `len(ds) - 1`, không tới `len(ds)` (đúng tính chất 1 ở trên). Xoá hoặc thêm phần
+# tử của chính list đang duyệt bằng `for` làm chỉ số bị lệch, bỏ sót hoặc lặp lại
+# phần tử — muốn lọc thì tạo list mới như `canh_bao` ở trên, không sửa list gốc.
+# Quên cập nhật biến điều kiện trong `while` (quên dòng `pin -= 15`) gây lặp vô
+# hạn, Colab treo, bấm nút dừng cạnh nút Run để ngắt.
 #
 # ### List comprehension
 #
-# Khi logic bên trong vòng `for` chỉ là "lọc và giữ lại", list comprehension viết
-# gọn cả vòng lặp lẫn `.append()` vào một dòng.
+# Khi thân vòng `for` chỉ là "lọc và giữ lại", list comprehension viết gọn cả
+# vòng lặp lẫn `.append()` vào một dòng. Chỉ thay được `for` theo nghĩa này —
+# thân vòng có nhánh rẽ phức tạp hoặc có tác dụng phụ như `print` thì viết `for`
+# bình thường, không gượng ép vào comprehension.
 
 # %%
 # Cách viết dài
@@ -222,9 +288,60 @@ print("A".isupper(), "a".isupper())   # True False
 # %% [markdown]
 # ### Bài tập 2.1 — Mã hoá Caesar
 #
-# Viết hàm `ma_hoa_caesar(van_ban, dich_chuyen)`: dịch mỗi chữ cái trong `van_ban`
-# đi `dich_chuyen` vị trí trong bảng chữ cái, vòng lại từ đầu nếu vượt quá `z`/`Z`.
-# Giữ nguyên hoa/thường, giữ nguyên số và ký tự khác (dấu câu, khoảng trắng).
+# Mã hoá Caesar dịch mỗi chữ cái đi một số vị trí cố định trong bảng chữ cái, vòng
+# lại từ đầu nếu vượt quá `z`. Trước khi viết hàm đầy đủ, dịch thử một ký tự
+# thường bằng công thức số học, không cần `if`:
+
+# %%
+def dich_ky_tu_thuong(c, dich_chuyen):
+    return chr((ord(c) - ord("a") + dich_chuyen) % 26 + ord("a"))
+
+
+print(dich_ky_tu_thuong("a", 3))   # 'd'
+print(dich_ky_tu_thuong("y", 3))   # 'b' - vong qua tu z ve a
+
+# %% [markdown]
+# Đọc công thức: `ord(c) - ord("a")` đưa `c` về vị trí `0`-`25` trong bảng chữ cái
+# (`a` là `0`, `z` là `25`), không phụ thuộc mã ASCII gốc. Cộng `dich_chuyen` rồi
+# `% 26` để vòng lại nếu vượt quá `25`. Cộng lại `ord("a")` để quay về đúng mã ký
+# tự thường.
+#
+# Vết chạy với `c = "y"`, `dich_chuyen = 3`:
+#
+# | Biểu thức | Kết quả |
+# |---|---|
+# | `ord("y")` | `121` |
+# | `121 - ord("a")` | `121 - 97 = 24` |
+# | `24 + 3` | `27` |
+# | `27 % 26` | `1` |
+# | `1 + ord("a")` | `1 + 97 = 98` |
+# | `chr(98)` | `"b"` |
+#
+# `27 % 26` cho `1` thay vì `27` — đây chính là bước vòng lại từ `z` (vị trí `25`)
+# về `a` (vị trí `0`).
+#
+# Ghép công thức trên vào một vòng `for` để dịch cả chuỗi, với điều kiện đơn giản
+# nhất: chuỗi chỉ toàn chữ thường, không số, không dấu câu.
+
+# %%
+def dich_chuoi_thuong(van_ban, dich_chuyen):
+    ket_qua = ""
+    for c in van_ban:
+        ket_qua += dich_ky_tu_thuong(c, dich_chuyen)
+    return ket_qua
+
+
+print(dich_chuoi_thuong("hello", 3))   # 'khoor'
+print(dich_chuoi_thuong("xyz", 3))     # 'abc'
+
+# %% [markdown]
+# Viết hàm `ma_hoa_caesar(van_ban, dich_chuyen)` làm đúng việc `dich_chuoi_thuong`
+# vừa làm, cộng thêm hai việc:
+#
+# 1. Ký tự không phải chữ cái (số, dấu câu, khoảng trắng) giữ nguyên, không dịch.
+#    Dùng `c.isalpha()` để kiểm tra trước khi dịch.
+# 2. Chữ hoa dịch bằng đúng công thức trên nhưng thay `ord("a")` bằng `ord("A")`,
+#    dùng `c.isupper()` để biết ký tự đang xét là hoa hay thường.
 #
 # Ví dụ: `ma_hoa_caesar("Hello, World!", 3)` → `"Khoor, Zruog!"`.
 
@@ -281,17 +398,34 @@ cam_bien_yeu_cau = {"lidar", "gps"}
 print("Cam bien con thieu:", cam_bien_yeu_cau - cam_bien_dang_bat)
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# Tính chất của `dict` và `set`:
 #
-# **1. Truy cập khóa không tồn tại bằng `[]`** → `KeyError`. Dùng
-# `config.get("khoa", gia_tri_mac_dinh)` khi không chắc khóa có tồn tại.
-#
-# **2. Nhầm `{}` là set rỗng.** `{}` luôn là dict. Set rỗng là `set()`.
-#
-# **3. Tưởng set giữ thứ tự chèn vào.** Set không đảm bảo thứ tự — nếu cần giữ thứ
-# tự mà vẫn loại trùng lặp, phải tự viết logic (xem bài tập 3.1), không thể chỉ
-# `list(set(ds))`.
-#
+# 1. `config["khoa"]` với khoá không tồn tại ném `KeyError`. `config.get("khoa",
+#    mac_dinh)` trả về `mac_dinh` thay vì báo lỗi.
+# 2. `{}` luôn là dict rỗng, kể cả khi định gán cho một set. Set rỗng phải viết
+#    `set()`.
+# 3. Set không giữ thứ tự chèn vào, và không chứa phần tử trùng lặp — thêm cùng
+#    một giá trị hai lần thì set chỉ còn lại một.
+# 4. Phần tử của set phải bất biến: số, chuỗi, tuple được, nhưng `list` thì không —
+#    `{[1, 2]}` ném `TypeError: unhashable type: 'list'`.
+
+# %%
+print(cau_hinh_xe.get("mau_son", "chua dat"))   # 'chua dat' - khong KeyError
+vi_du_set = {1, 1, 2, 2, 3}
+print(vi_du_set)                                # {1, 2, 3} - trung lap tu dong bi loai
+
+# %% [markdown]
+# `zip(a, b)` ghép hai list lại theo từng cặp cùng chỉ số, dừng khi list ngắn
+# nhất hết phần tử.
+
+# %%
+ten_mon = ["Toan", "Ly", "Hoa"]
+diem_mon = [8, 9, 10]
+
+for mon, d in zip(ten_mon, diem_mon):
+    print(mon, d)
+
+# %% [markdown]
 # ### Dict và set comprehension
 #
 # Cùng cú pháp với list comprehension ở Bài 2, chỉ đổi ngoặc vuông thành ngoặc
@@ -310,12 +444,29 @@ print("Cac mon dat gioi:", diem_gioi)
 # %% [markdown]
 # ### Bài tập 3.1 — Lọc phần tử trùng lặp
 #
+# Trước bài tập, một bài cùng cách nghĩ — "nhớ những giá trị đã gặp" — nhưng khác
+# đầu ra: đếm số lần xuất hiện của mỗi phần tử bằng dict.
+
+# %%
+def dem_so_lan(ds):
+    dem = {}
+    for x in ds:
+        if x in dem:
+            dem[x] += 1
+        else:
+            dem[x] = 1
+    return dem
+
+
+print(dem_so_lan([1, 2, 2, 3, 1, 4]))   # {1: 2, 2: 2, 3: 1, 4: 1}
+
+# %% [markdown]
 # Viết hàm `loc_trung_lap(ds)` trả về một **list** chỉ giữ lần xuất hiện **đầu
-# tiên** của mỗi phần tử, theo đúng thứ tự ban đầu.
+# tiên** của mỗi phần tử, theo đúng thứ tự ban đầu. Khác `dem_so_lan` ở chỗ: không
+# cần đếm, chỉ cần biết "đã gặp chưa" (`set` tra nhanh hơn `dict` cho việc chỉ hỏi
+# có/không), và giữ phần tử vào một list kết quả ngay lần gặp đầu tiên.
 #
 # Ví dụ: `loc_trung_lap([1, 2, 2, 3, 1, 4])` → `[1, 2, 3, 4]`.
-#
-# Gợi ý: dùng một `set` để nhớ những giá trị đã gặp, kết hợp một `list` kết quả.
 
 # %%
 def loc_trung_lap(ds):
