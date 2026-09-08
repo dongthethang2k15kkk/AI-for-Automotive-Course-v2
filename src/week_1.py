@@ -128,42 +128,31 @@ print(trang_thai_he_thong, type(trang_thai_he_thong))
 print(cam_bien_hoat_dong, type(cam_bien_hoat_dong))
 
 # %% [markdown]
-# Bốn điểm hay gây lỗi ở bài này:
+# Bốn điểm cần nhớ:
 #
-# 1. `"10"` và `10` là hai thứ khác nhau. Dữ liệu đọc từ cảm biến hay từ `input()`
-#    luôn là chuỗi, phải ép kiểu trước khi tính toán. 
-#    VD: Nhập số nguyên từ bàn phím phải ép `int():` `int(input(...))`
-# 2. Dùng biến chưa gán thì Python báo `NameError`. Biến phải được gán trước khi dùng.
-# 3. Nên đặt tên theo nội dung:
-#    `toc_do_xe`, `so_lan_doc_cam_bien`.
-# 4. `type(True)` trả về `bool`, không phải `int` — dù trong Python `True == 1`.
+# 1. `"10"` và `10` là hai thứ khác nhau. `int()` và `float()` chỉ ép được chuỗi
+#    đúng định dạng số: `int("10")` được vì toàn chữ số, còn `int("10.5")` ném
+#    `ValueError: invalid literal for int() with base 10: '10.5'` vì `int()` không
+#    đọc được dấu chấm — phải ép qua `float()` trước, rồi `int()` sau nếu cần số
+#    nguyên: `int(float("10.5"))`.
+# 2. `int(10.9)` **cắt bỏ phần thập phân**, ra `10`. `round(10.9)` làm tròn theo
+#    quy tắc toán học, ra `11`. Hai hàm cho hai kết quả khác nhau.
+# 3. Dùng biến chưa gán thì Python báo `NameError`. Đặt tên theo nội dung:
+#    `toc_do_xe`, `so_lan_doc_cam_bien`, không đặt kiểu `x`, `a1`.
+# 4. `int("10") + int("5")` ép hai chuỗi thành số rồi mới cộng, ra `15`.
+#    `int("10" + "5")` nối chuỗi `"10"` và `"5"` thành `"105"` trước, rồi mới ép
+#    sang số, ra `105`. Cùng bốn ký tự `1`, `0`, `5` nhưng thứ tự thao tác quyết
+#    định kết quả. Ngoài ra `type(True)` trả về `bool`, không phải `int`, dù
+#    `True == 1`.
 
 # %%
 # Chuỗi và số khác nhau như thế nào
-gia_tri_tho = "10"           # dữ liệu thô đọc về, luôn là chuỗi
-print(gia_tri_tho + "5")     # nối chuỗi -> "105"
-print(int(gia_tri_tho) + 5)  # ép kiểu rồi cộng -> 15
+gia_tri_tho = "10"            # dữ liệu thô đọc về, luôn là chuỗi
+print(gia_tri_tho + "5")      # nối chuỗi -> "105"
+print(int(gia_tri_tho) + 5)   # ép kiểu rồi cộng -> 15
 
-# %% [markdown]
-# Tính chất ép kiểu:
-#
-# 1. `int()` và `float()` chỉ chấp nhận chuỗi đúng định dạng số: 
-#    * `int("10")` hoạt động vì chuỗi biểu diễn đúng một số nguyên ở hệ cơ số 10.
-#    * `float("10.5")` hoạt động vì chuỗi biểu diễn đúng dạng số thực (có tối đa một dấu chấm thập phân).
-#
-# 2. `int("10.5")` sẽ phát sinh lỗi `ValueError: invalid literal for int() with base 10: '10.5'` do `int()` không xử lý ký tự dấu chấm `.` trong chuỗi. Để lấy phần nguyên từ một chuỗi số thực, phải ép kiểu qua `float()` trước rồi mới ép về `int()` sau: `int(float("10.5"))`.
-#
-# 3. `int(10.9)` thực hiện **cắt bỏ phần thập phân** (truncation), cho ra `10`. Trong khi đó, `round(10.9)`HOẶC `round(10.9,0)` thực hiện **làm tròn 0 chữ số sau dấu phẩy** theo quy tắc toán học, cho ra `11`.
-#
-# 4. Thứ tự thực thi và bản chất của toán tử `+`:
-#    * `int("10") + int("5")`: Ép hai chuỗi thành hai số nguyên trước, sau đó toán tử `+` thực hiện **phép cộng đại số**, cho ra `15`.
-#    * `int("10" + "5")`: Toán tử `+` thực hiện **nối chuỗi** trước thành `"105"`, sau đó `int()`
-
-# %%
-print(int("10"), float("10.5"))    # ep duoc vi dung dang so: 10 10.5
-print(int(10.9))                   # cat bo phan thap phan, khong lam tron: 10
-print(int("10") + int("5"))        # cong hai so da ep: 15
-print(int("10" + "5"))             # noi chuoi truoc roi moi ep: 105
+print(int(10.9))               # cắt bỏ phần thập phân: 10
+print(int("10" + "5"))         # nối chuỗi trước rồi mới ép: 105
 
 # %% [markdown]
 # ### Bài tập 1.1 — Điểm trung bình
