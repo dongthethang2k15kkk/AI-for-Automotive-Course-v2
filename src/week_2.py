@@ -11,11 +11,12 @@
 # ---
 
 # %% [markdown]
-# # Tuần 2 — Hàm, vòng lặp & cấu trúc dữ liệu cơ bản
+# # Tuần 2 — Scope, vòng lặp & cấu trúc dữ liệu cơ bản
 #
 # **Mục tiêu sau tuần này, bạn phải làm được:**
 #
-# 1. Đóng gói code thành hàm, hiểu phạm vi biến (scope) và tham số mặc định.
+# 1. Dùng tham số mặc định, và biết vì sao sửa biến bên trong hàm không ảnh hưởng
+#    biến cùng tên bên ngoài (phạm vi biến — scope).
 # 2. Duyệt và lọc dữ liệu bằng `for` / `while`, dùng đúng `break` / `continue`.
 # 3. Thao tác thành thạo `list`, `dict`, `set` — ba cấu trúc dữ liệu dùng nhiều nhất.
 
@@ -53,7 +54,7 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 
 # %% [markdown]
 # ---
-# ## Bài 1 — Hàm (Functions) và phạm vi biến (Scope)
+# ## Bài 1 — Tham số mặc định và Phạm vi biến (Scope)
 #
 # `def` và `return` đã dùng ở tuần 1. Bài này thêm hai thứ: tham số mặc định, và
 # quy tắc biến nào sống ở đâu.

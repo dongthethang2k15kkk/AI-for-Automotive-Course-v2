@@ -1,4 +1,4 @@
-"""Bộ test tuần 2 - Hàm, vòng lặp & cấu trúc dữ liệu cơ bản."""
+"""Bộ test tuần 2 - Scope, vòng lặp & cấu trúc dữ liệu cơ bản."""
 
 from __future__ import annotations
 
