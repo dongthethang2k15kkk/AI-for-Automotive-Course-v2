@@ -97,23 +97,42 @@ print(lidar_truoc.doc_du_lieu())
 print(cam_giua.doc_du_lieu())
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# Đọc kết quả: cùng một lời gọi `.doc_du_lieu()`, `lidar_truoc` và `cam_giua` trả
+# lời khác nhau — đây chính là Đa hình. Cả hai đều có thuộc tính `ten`, `chan` mà
+# không class nào tự viết lại, vì `Lidar` và `Camera` đều kế thừa từ `CamBien`.
 #
-# **1. Quên gọi `super().__init__()`** trong lớp con — các thuộc tính của lớp cha
-# sẽ không được thiết lập, gây lỗi `AttributeError` khi truy cập chúng sau này.
+# Vết chạy khi tạo `Lidar("Lidar_Truoc", chan=15, tam_quet_max=120)`:
 #
-# **2. Định nghĩa lại `__init__` ở lớp con mà không nhận đủ tham số của lớp cha**
-# — dẫn đến không có cách nào truyền dữ liệu xuống `super().__init__()`.
+# | Bước | Việc | Kết quả |
+# |---|---|---|
+# | 1 | Gọi `Lidar.__init__`, `self` trỏ vào object mới | object chưa có thuộc tính |
+# | 2 | Dòng đầu tiên: `super().__init__(ten, chan)` — nhảy sang `CamBien.__init__` | |
+# | 3 | Bên trong `CamBien.__init__`: `self.ten`, `self.chan`, `self._trang_thai` | object có 3 thuộc tính |
+# | 4 | `CamBien.__init__` kết thúc, quay lại `Lidar.__init__` | |
+# | 5 | Dòng cuối: `self.tam_quet_max = tam_quet_max` | object có thêm thuộc tính thứ 4 |
 #
-# **3. Nhầm ghi đè (override) với việc vô tình đặt trùng tên phương thức không
-# liên quan.** Ghi đè đúng nghĩa là lớp con thay thế **hoàn toàn** hành vi đã có ở
-# lớp cha cho cùng một tên phương thức.
+# Tính chất của kế thừa và đa hình:
+#
+# 1. Lớp con không gọi `super().__init__()` thì các thuộc tính lớp cha thiết lập
+#    trong `__init__` của nó không tồn tại — truy cập ném `AttributeError`.
+# 2. Lớp con định nghĩa lại một phương thức đã có ở lớp cha (cùng tên) thì bản
+#    của lớp con **luôn thắng**: gọi qua object của lớp con chạy bản mới, không
+#    chạy bản của lớp cha.
+# 3. `super()` gọi được mọi phương thức của lớp cha, không riêng `__init__` — ví
+#    dụ `super().doc_du_lieu()` gọi đúng bản của `CamBien`, dù lớp con đã ghi đè.
+# 4. `isinstance(lidar_truoc, CamBien)` trả về `True`: một object của lớp con
+#    vẫn là một object của lớp cha.
+#
+# Lỗi thường gặp: định nghĩa lại `__init__` ở lớp con mà không nhận đủ tham số
+# của lớp cha thì không có cách nào truyền dữ liệu xuống `super().__init__()`.
+# Nhầm ghi đè (override — định nghĩa lại đúng tên phương thức đã có) với việc vô
+# tình đặt trùng tên một phương thức không liên quan gì tới lớp cha.
 #
 # ### Thứ tự gọi super().__init__()
 #
-# Luôn gọi `super().__init__(...)` là dòng đầu tiên trong `__init__` của lớp con.
-# Thiết lập xong phần của lớp cha trước, rồi mới gán thêm thuộc tính riêng của lớp
-# con, tránh trường hợp lớp con ghi đè lên giá trị lớp cha vừa thiết lập.
+# Luôn gọi `super().__init__(...)` là dòng đầu tiên trong `__init__` của lớp con,
+# đúng thứ tự vết chạy ở trên: phần lớp cha thiết lập trước, phần riêng của lớp
+# con gán sau, tránh lớp con ghi đè lên giá trị lớp cha vừa thiết lập.
 
 # %% [markdown]
 # ### Bài tập 1.1 — Hệ thống nhân sự
@@ -191,27 +210,69 @@ while hang_doi_lenh:
     print(f"Dang thuc thi: {lenh}...")
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# Vết chạy nội dung `hang_doi_lenh`:
 #
-# **1. Dùng `list.pop(0)` để giả lập Queue.** Chạy được nhưng **chậm** với dữ liệu
-# lớn, vì mọi phần tử còn lại phải dịch chuyển vị trí. Luôn dùng `deque` cho Queue.
+# | Bước | Lệnh | Nội dung sau lệnh |
+# |---|---|---|
+# | 1 | `append("LENH_RE_TRAI")` | `["LENH_RE_TRAI"]` |
+# | 2 | `append("LENH_TANG_TOC")` | `["LENH_RE_TRAI", "LENH_TANG_TOC"]` |
+# | 3 | `append("LENH_BAT_DEN")` | `["LENH_RE_TRAI", "LENH_TANG_TOC", "LENH_BAT_DEN"]` |
+# | 4 | `popleft()` → `"LENH_RE_TRAI"` | `["LENH_TANG_TOC", "LENH_BAT_DEN"]` |
+# | 5 | `popleft()` → `"LENH_TANG_TOC"` | `["LENH_BAT_DEN"]` |
+# | 6 | `popleft()` → `"LENH_BAT_DEN"` | `[]` |
 #
-# **2. Nhầm `.pop()` (lấy cuối, dùng cho Stack) với `.popleft()` (lấy đầu, dùng
-# cho Queue).** Dùng sai hàm sẽ cho ra thứ tự ngược với yêu cầu bài toán.
+# `popleft()` luôn lấy đúng phần tử được `append()` sớm nhất còn lại trong hàng
+# đợi — vào trước, ra trước.
 #
-# **3. Quên kiểm tra rỗng trước khi `.pop()`/`.popleft()`** — gọi trên cấu trúc
-# rỗng sẽ báo lỗi `IndexError`.
+# Stack làm ngược lại: `.append()` vẫn đẩy vào cuối, nhưng `.pop()` lấy ra từ
+# cuối — vào sau, ra trước.
 
 # %%
-def dao_nguoc_bang_stack_vi_du(danh_sach):
-    stack = list(danh_sach)
-    ket_qua = []
-    while stack:
-        ket_qua.append(stack.pop())  # lấy từ cuối - đúng bản chất Stack
-    return ket_qua
+ngan_xep = []
+ngan_xep.append("A")
+ngan_xep.append("B")
+ngan_xep.append("C")
+print("Ngan xep:", ngan_xep)
+
+print("Lay ra:", ngan_xep.pop())   # 'C' - phan tu vua day vao sau cung
+print("Ngan xep con lai:", ngan_xep)
+
+# %% [markdown]
+# Vết chạy `ngan_xep`:
+#
+# | Bước | Lệnh | Nội dung sau lệnh |
+# |---|---|---|
+# | 1 | `append("A")` | `["A"]` |
+# | 2 | `append("B")` | `["A", "B"]` |
+# | 3 | `append("C")` | `["A", "B", "C"]` |
+# | 4 | `pop()` → `"C"` | `["A", "B"]` |
+#
+# Lỗi thường gặp: dùng `list.pop(0)` để giả lập Queue chạy được nhưng chậm với
+# dữ liệu lớn, vì mọi phần tử còn lại phải dịch chuyển vị trí — luôn dùng `deque`
+# cho Queue. Nhầm `.pop()` (lấy cuối, dùng cho Stack) với `.popleft()` (lấy đầu,
+# dùng cho Queue) cho ra thứ tự ngược với yêu cầu bài toán. Gọi `.pop()` hay
+# `.popleft()` trên cấu trúc rỗng ném `IndexError` — luôn kiểm tra rỗng trước
+# bằng `if ngan_xep:` hoặc `while ngan_xep:`.
+#
+# Bài mẫu ứng dụng Stack: kiểm tra một chuỗi dấu ngoặc tròn có cân bằng không.
+# Mỗi dấu `(` đẩy vào ngăn xếp; mỗi dấu `)` phải lấy ra đúng một `(` đang chờ.
+
+# %%
+def ngoac_can_bang(chuoi):
+    ngan_xep = []
+    for ky_tu in chuoi:
+        if ky_tu == "(":
+            ngan_xep.append(ky_tu)
+        elif ky_tu == ")":
+            if not ngan_xep:   # gap ')' nhung khong con '(' nao de ghep
+                return False
+            ngan_xep.pop()
+    return len(ngan_xep) == 0   # con du '(' chua duoc ghep thi khong can bang
 
 
-print(dao_nguoc_bang_stack_vi_du([1, 2, 3]))
+print(ngoac_can_bang("(())"))   # True
+print(ngoac_can_bang("(()"))    # False - thieu 1 dau dong
+print(ngoac_can_bang("())"))    # False - du 1 dau dong
 
 # %% [markdown]
 # ### Bài tập 2.1 — Đảo ngược bằng Stack
@@ -256,12 +317,21 @@ kiem_tra_2_2(dieu_huong_waypoint)
 # ---
 # ## Bài 3 — Danh sách liên kết (Linked List)
 #
-# Node là đơn vị cơ bản: chứa `data` (dữ liệu) và `next` (con trỏ tới Node kế
-# tiếp, hoặc `None` nếu là Node cuối).
-#
-# Khác với `list` (mảng) của Python — không có chỉ số (index) để nhảy thẳng tới
-# một phần tử, phải **duyệt tuần tự từ đầu**. Đổi lại, chèn/xoá ở đầu danh sách
-# nhanh hơn vì không cần dịch chuyển các phần tử khác.
+# Chèn một phần tử vào đầu `list` Python (`ds.insert(0, x)`) phải dịch toàn bộ
+# các phần tử còn lại sang phải một vị trí. List 1 triệu phần tử thì dịch 1
+# triệu lần chỉ để thêm đúng 1 phần tử vào đầu.
+
+# %%
+ds_thuong = [2, 3, 4]
+ds_thuong.insert(0, 1)   # chen vao dau: phai dich [2, 3, 4] sang phai truoc
+print(ds_thuong)          # [1, 2, 3, 4]
+
+# %% [markdown]
+# Danh sách liên kết (Linked List) tránh việc dịch chuyển này. Node là đơn vị cơ
+# bản: chứa `data` (dữ liệu) và `next` (con trỏ tới Node kế tiếp, hoặc `None`
+# nếu là Node cuối). Thêm vào đầu chỉ cần đổi một con trỏ, không đụng tới các
+# Node khác. Đổi lại, không có chỉ số (index) để nhảy thẳng tới một phần tử —
+# phải duyệt tuần tự từ đầu.
 
 # %%
 class Node:
@@ -283,16 +353,39 @@ while hien_tai:
     hien_tai = hien_tai.next
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# Vết chạy con trỏ `hien_tai` qua vòng `while`:
 #
-# **1. Quên cập nhật `next` khi nối Node** — Node mới bị "rơi" ra khỏi danh sách,
-# không ai trỏ tới nó.
+# | Lượt | `hien_tai` trước dòng `print` | `.data` in ra | `hien_tai.next` |
+# |---|---|---|---|
+# | 1 | `dau` | "Khoi dong he thong" | `node_2` |
+# | 2 | `node_2` | "Kiem tra ngoai vi" | `node_3` |
+# | 3 | `node_3` | "San sang hoat dong" | `None` |
+# | 4 | `None` | — | vòng dừng, điều kiện `while hien_tai` sai |
 #
-# **2. Vòng lặp duyệt quên di chuyển `hien_tai = hien_tai.next`** → lặp vô hạn
-# trên cùng một Node.
-#
-# **3. Không kiểm tra danh sách rỗng (`self.head is None`)** trước khi thao tác —
+# Lỗi thường gặp: quên cập nhật `next` khi nối Node mới thì Node đó bị "rơi" ra
+# khỏi danh sách, không ai trỏ tới nó. Vòng lặp duyệt quên di chuyển
+# `hien_tai = hien_tai.next` thì lặp vô hạn trên cùng một Node (không tiến được
+# tới lượt 4 trong bảng trên). Không kiểm tra danh sách rỗng trước khi thao tác
 # gây lỗi khi cố truy cập `.next` của `None`.
+#
+# Bài mẫu, cùng kỹ thuật duyệt ở trên nhưng đếm thay vì in:
+
+# %%
+def dem_so_node(head):
+    dem = 0
+    hien_tai = head
+    while hien_tai:
+        dem += 1
+        hien_tai = hien_tai.next
+    return dem
+
+
+print(dem_so_node(dau))   # 3
+
+# %% [markdown]
+# `them_cuoi` (bài tập dưới đây) cần thêm một biến thể của cách duyệt này: không
+# đếm, mà đi tới Node **cuối cùng** — Node có `.next is None` — rồi gắn Node mới
+# vào `.next` của nó.
 #
 # ### Bài tập 3.1 — Danh sách liên kết đơn
 #
@@ -326,17 +419,23 @@ kiem_tra_3_1(DanhSachLienKet)
 # ---
 # ## Dự án 3 — Máy tính diện tích đa giác
 #
+# Hình vuông là một hình chữ nhật có hai cạnh bằng nhau. Tính chất này quyết
+# định cách viết `HinhVuong`: mọi phương thức chỉ dùng `chieu_dai`/`chieu_rong`
+# mà không quan tâm chúng có bằng nhau không (`dien_tich`, `chu_vi`) thì kế thừa
+# nguyên vẹn từ `HinhChuNhat`, không cần viết lại. Phương thức nào có thể làm
+# gãy tính chất "hai cạnh bằng nhau" — cụ thể là đổi một cạnh — thì phải tự
+# viết lại để đổi luôn cả hai cạnh cùng lúc.
+#
 # Bài tập tổng kết phần OOP. Viết 2 class:
 #
 # - `HinhChuNhat`: `__init__(self, chieu_dai, chieu_rong)`; `dien_tich(self)`;
 #   `chu_vi(self)` = `2 * (chieu_dai + chieu_rong)`.
 # - `HinhVuong(HinhChuNhat)`: `__init__(self, canh)` — gọi
-#   `super().__init__(canh, canh)`. Thêm `dat_canh(self, canh_moi)` — đổi **cả**
-#   `chieu_dai` và `chieu_rong` sang `canh_moi`, để luôn đảm bảo 2 cạnh bằng nhau
-#   (đặc trưng của hình vuông).
+#   `super().__init__(canh, canh)`. Thêm `dat_canh(self, canh_moi)` — đổi cả
+#   `chieu_dai` và `chieu_rong` sang `canh_moi`.
 #
-# `HinhVuong` **kế thừa nguyên vẹn** `dien_tich()` và `chu_vi()` từ `HinhChuNhat`
-# — không cần viết lại, vì công thức vẫn đúng khi `chieu_dai == chieu_rong`.
+# `HinhVuong` kế thừa nguyên vẹn `dien_tich()` và `chu_vi()` từ `HinhChuNhat` —
+# không cần viết lại, vì công thức vẫn đúng khi `chieu_dai == chieu_rong`.
 
 # %%
 class HinhChuNhat:
