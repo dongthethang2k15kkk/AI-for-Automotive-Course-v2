@@ -82,18 +82,57 @@ doc_cam_bien("30.2")   # dữ liệu chuẩn
 doc_cam_bien("N/A")    # dữ liệu bị nhiễu
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# Đọc kết quả: lệnh đầu vào chuỗi hợp lệ, khối `try` chạy trọn, `except` bị bỏ
+# qua, `finally` vẫn in dòng "Da hoan tat". Lệnh hai vào chuỗi lỗi, `float("N/A")`
+# ném `ValueError` ngay giữa khối `try`, nhảy thẳng xuống `except ValueError`, và
+# `finally` vẫn in dòng đó lần thứ hai — dù lần này có lỗi.
 #
-# **1. Bắt lỗi quá rộng bằng `except:` trống.** Cách này nuốt luôn cả lỗi do chính
-# bạn viết sai code (ví dụ gõ nhầm tên biến), khiến chương trình chạy sai âm thầm
-# mà không báo gì. Luôn chỉ rõ loại lỗi: `except ValueError:`.
+# Tính chất của `try/except/finally`:
 #
-# **2. Quên rằng `else` trong `try/except` chỉ chạy khi KHÔNG có lỗi** — nhiều
-# người nhầm tưởng `else` là "trường hợp còn lại của except".
+# 1. `finally` luôn chạy, bất kể `try` có lỗi hay không, kể cả khi `try` hoặc
+#    `except` có `return`.
+# 2. Nhiều khối `except` được xét từ trên xuống, gặp loại lỗi khớp đầu tiên là
+#    dừng, không xét tiếp các `except` sau. Đặt `except Exception` (bắt mọi lỗi)
+#    lên trước sẽ nuốt luôn các `except` cụ thể đứng sau nó, chúng không bao giờ
+#    được chạy tới.
+# 3. Một khối `try` nhận nhiều `except`, mỗi `except` ứng với một loại lỗi khác
+#    nhau, không cần lồng nhiều `try` riêng lẻ.
+# 4. `raise TenLoi("thong bao")` chủ động tạo lỗi ngay tại chỗ, dùng khi dữ liệu
+#    sai theo logic nghiệp vụ dù cú pháp Python không tự phát hiện ra.
+
+# %%
+def chia_hai_chuoi(a_str, b_str):
+    try:
+        a = float(a_str)
+        b = float(b_str)
+        return a / b
+    except ValueError:
+        return "LOI_DINH_DANG"
+    except ZeroDivisionError:
+        return "LOI_CHIA_CHO_KHONG"
+
+
+print(chia_hai_chuoi("10", "2"))     # 5.0
+print(chia_hai_chuoi("10", "abc"))   # LOI_DINH_DANG - float("abc") nem ValueError
+print(chia_hai_chuoi("10", "0"))     # LOI_CHIA_CHO_KHONG - 10.0 / 0.0 nem ZeroDivisionError
+
+# %% [markdown]
+# Vết chạy hai lệnh gọi trên, theo tính chất 2 và 3 ở trên:
 #
-# **3. Không phân biệt được nên `except` hay nên để chương trình dừng hẳn.** Không
-# phải lỗi nào cũng nên "nuốt" — có lỗi nên để chương trình dừng lại để người dùng
-# biết mà sửa dữ liệu đầu vào, thay vì âm thầm trả về giá trị sai.
+# | Lệnh gọi | Dòng chạy trong `try` | Lỗi ném ra | `except` khớp |
+# |---|---|---|---|
+# | `chia_hai_chuoi("10", "abc")` | `a = float("10")` chạy xong, `b = float("abc")` ném lỗi | `ValueError` | `except ValueError` |
+# | `chia_hai_chuoi("10", "0")` | `a = float("10")`, `b = float("0")` chạy xong, `return a / b` ném lỗi | `ZeroDivisionError` | `except ZeroDivisionError` |
+#
+# Ở lệnh gọi thứ hai, `float("0")` không lỗi — `"0"` là chuỗi số hợp lệ. Lỗi chỉ
+# xảy ra ở bước chia, dòng `return a / b`.
+#
+# Lỗi thường gặp: bắt lỗi quá rộng bằng `except:` trống (không chỉ rõ loại lỗi)
+# nuốt luôn cả lỗi do chính bạn viết sai code, ví dụ gõ nhầm tên biến — chương
+# trình chạy sai âm thầm mà không báo gì. Luôn chỉ rõ loại lỗi như `except
+# ValueError:`. Ngoài ra không phải lỗi nào cũng nên "nuốt" bằng `except` — dữ
+# liệu sai đến mức không thể tiếp tục thì nên để chương trình dừng lại, không
+# âm thầm trả về giá trị sai (tính chất 4: `raise` để dừng có kiểm soát).
 #
 # ### Trả lỗi ra sao khi hàm cần trả kết quả
 #
@@ -137,9 +176,27 @@ kiem_tra_1_1(tinh_van_toc_an_toan)
 # ---
 # ## Bài 2 — Nhập môn Lập trình hướng đối tượng
 #
-# Thay vì để dữ liệu (biến) và hành vi (hàm) rời rạc, OOP gom chúng vào một đối
-# tượng (object) duy nhất. Class là bản thiết kế; object là thực thể cụ thể được
-# tạo ra từ bản thiết kế đó.
+# Quản lý ba tài khoản bằng biến rời rạc thì phải nhớ đúng bộ tên-số dư cho từng
+# tài khoản, và mọi hàm thao tác phải nhận đủ cả bộ đó làm tham số:
+
+# %%
+ten_1, so_du_1 = "Nguyen Van A", 1000000
+ten_2, so_du_2 = "Tran Thi B", 200000
+
+
+def nap_tien_rieng(so_du, so_tien):
+    return so_du + so_tien
+
+
+so_du_1 = nap_tien_rieng(so_du_1, 500000)
+so_du_2 = nap_tien_rieng(so_du_2, 200000)
+# them tai khoan thu 3 la them 2 bien moi (ten_3, so_du_3), va phai nho
+# goi dung ten bien do o moi noi can dung den tai khoan thu 3.
+
+# %% [markdown]
+# OOP gom dữ liệu và hành vi của một thứ vào một đối tượng (object) duy nhất, để
+# không phải nhớ và truyền tay bộ biến rời rạc đó nữa. Class là bản thiết kế;
+# object là thực thể cụ thể được tạo ra từ bản thiết kế đó.
 #
 # `__init__` là phương thức chạy tự động khi object vừa được tạo — dùng để thiết
 # lập trạng thái ban đầu. `self` là tham số đầu tiên của mọi phương thức, đại diện
@@ -165,19 +222,27 @@ ro_le_camera = RoLe(chan_so=12)
 ro_le_camera.bat()
 
 # %% [markdown]
-# ### Lỗi thường gặp
+# Vết chạy lệnh `RoLe(chan_so=12)`:
 #
-# **1. Quên tham số `self`.** Mọi phương thức trong class (trừ một số trường hợp
-# đặc biệt chưa học tới) đều phải nhận `self` làm tham số đầu tiên, kể cả khi
-# không dùng đến nó bên trong.
+# | Bước | Việc | Kết quả |
+# |---|---|---|
+# | 1 | Python tạo một object trống | object chưa có thuộc tính nào |
+# | 2 | Gọi `__init__(self, chan_so)`; `self` trỏ vào object vừa tạo, `chan_so = 12` | |
+# | 3 | Chạy `self.chan = chan_so` | object có thuộc tính `chan = 12` |
+# | 4 | Chạy `self.dang_bat = False` | object có thêm thuộc tính `dang_bat = False` |
+# | 5 | `__init__` kết thúc, object được gán cho `ro_le_camera` | `ro_le_camera.chan == 12` |
 #
-# **2. Gọi phương thức không qua object.** Phải gọi `object.phuong_thuc()`, không
-# phải `TenClass.phuong_thuc()` (trừ khi bạn hiểu rõ mình đang làm gì với
-# classmethod — chưa học tới trong tuần này).
+# `self` không phải từ khoá đặc biệt — nó chỉ là tên tham số đầu tiên, được
+# Python tự truyền vào là chính object đang gọi phương thức. Gọi
+# `ro_le_camera.bat()` thì bên trong `bat`, `self` chính là `ro_le_camera`.
 #
-# **3. Thay đổi thuộc tính trực tiếp từ bên ngoài** (`obj.so_du = -999999`) thay vì
-# qua phương thức — bỏ qua mọi kiểm tra logic mà class đã cài đặt. Bài tập dưới
-# đây yêu cầu số dư chỉ được đổi qua `nap_tien`/`rut_tien`, không được gán tay.
+# Lỗi thường gặp: quên tham số `self` ở phương thức mới định nghĩa làm số tham số
+# truyền vào không khớp, Python báo lỗi ngay khi gọi. Gọi phương thức không qua
+# object — viết `TenClass.phuong_thuc()` thay vì `object.phuong_thuc()` — thiếu
+# `self` cũng báo lỗi tương tự. Sửa thuộc tính trực tiếp từ bên ngoài
+# (`obj.so_du = -999999`) thay vì qua phương thức thì bỏ qua mọi kiểm tra logic mà
+# class đã cài đặt — bài tập dưới đây yêu cầu số dư chỉ được đổi qua
+# `nap_tien`/`rut_tien`, không gán tay.
 
 # %%
 class DemPhanTram:
@@ -193,6 +258,31 @@ b = DemPhanTram()
 c = DemPhanTram()
 print(a.thu_tu, b.thu_tu, c.thu_tu)          # 1 2 3 - riêng từng object
 print(DemPhanTram.tong_so_lan_tao)           # 3 - dùng chung
+
+# %% [markdown]
+# Trước bài tập, một class có phương thức từ chối thay đổi trạng thái khi dữ
+# liệu không hợp lệ, cùng cách nghĩ mà `rut_tien` dưới đây cần: kiểm tra trước,
+# chỉ đổi trạng thái khi hợp lệ, báo lại bằng giá trị `True`/`False`.
+
+# %%
+class DongHoToc:
+    def __init__(self, toc_do_ban_dau=0):
+        self.toc_do = toc_do_ban_dau
+
+    def dat_toc_do(self, gia_tri_moi):
+        if gia_tri_moi < 0:
+            return False
+        self.toc_do = gia_tri_moi
+        return True
+
+    def xem_toc_do(self):
+        return self.toc_do
+
+
+dong_ho = DongHoToc()
+print(dong_ho.dat_toc_do(60))    # True - hop le, toc_do doi thanh 60
+print(dong_ho.dat_toc_do(-10))   # False - khong hop le, toc_do KHONG doi
+print(dong_ho.xem_toc_do())      # 60 - van la gia tri truoc do
 
 # %% [markdown]
 # ### Bài tập 2.1 — Tài khoản ngân hàng
@@ -254,6 +344,39 @@ xe_1 = XeTuHanh("CAR-01")
 print(xe_1)  # tự động gọi __str__
 
 # %% [markdown]
+# Dự án dưới đây cần một object tự giữ một **danh sách** giao dịch bên trong nó,
+# thay vì chỉ vài thuộc tính đơn lẻ như `RoLe` hay `XeTuHanh`. Trước dự án, một
+# class nhỏ theo đúng khuôn đó: mỗi lần nạp/xả pin là một `dict` được thêm vào
+# một `list`, và một phương thức cộng dồn toàn bộ `list` đó thành một con số.
+
+# %%
+class NhatKyPin:
+    def __init__(self):
+        self.ban_ghi = []   # list các dict, mỗi dict la mot lan nap/xa
+
+    def sac(self, luong, ly_do=""):
+        self.ban_ghi.append({"thay_doi": luong, "ly_do": ly_do})
+
+    def xa(self, luong, ly_do=""):
+        self.ban_ghi.append({"thay_doi": -luong, "ly_do": ly_do})
+
+    def muc_pin(self):
+        tong = 0
+        for ban_ghi in self.ban_ghi:
+            tong += ban_ghi["thay_doi"]
+        return tong
+
+
+pin = NhatKyPin()
+pin.sac(50, "sac qua dem")
+pin.xa(20, "chay thu nghiem")
+print(pin.muc_pin())    # 30 = 50 - 20
+print(pin.ban_ghi)      # list 2 dict, dung thu tu da them vao
+
+# %% [markdown]
+# `muc_pin` không lưu sẵn một con số — nó tính lại từ đầu `self.ban_ghi` mỗi lần
+# được gọi. `sac`/`xa` chỉ thêm bản ghi, không tự cộng dồn.
+#
 # ---
 # ## Dự án 2 — Budget App (Ứng dụng quản lý ngân sách)
 #
@@ -267,14 +390,16 @@ print(xe_1)  # tự động gọi __str__
 # - `nap_tien(self, so_tien, mo_ta="")` — thêm giao dịch dương vào `ledger`
 # - `rut_tien(self, so_tien, mo_ta="")` — nếu đủ số dư thì thêm giao dịch âm vào
 #   `ledger` và trả `True`; nếu không đủ, trả `False` và **không thay đổi ledger**
-# - `chuyen_tien(self, hang_muc_khac, so_tien)` — rút từ hạng mục này, nạp vào
-#   `hang_muc_khac`; trả về kết quả của việc rút (`True`/`False`)
-# - `so_du(self)` — trả về tổng tất cả giao dịch trong `ledger`
+# - `chuyen_tien(self, hang_muc_khac, so_tien)` — gọi `self.rut_tien(...)`; nếu
+#   thành công thì gọi thêm `hang_muc_khac.nap_tien(...)`; trả về kết quả của
+#   việc rút (`True`/`False`)
+# - `so_du(self)` — trả về tổng tất cả giao dịch trong `ledger`, cùng cách
+#   `muc_pin` cộng dồn `ban_ghi` ở trên, chỉ đổi tên khoá dict thành `"so_tien"`
 # - `__str__(self)` — trả về đúng định dạng: `"{ten}: {so_du} VND"`
 #
-# Gợi ý cấu trúc `ledger`: một `list` các `dict`, mỗi phần tử dạng
-# `{"so_tien": ..., "mo_ta": ...}`. `so_du()` chỉ cần cộng dồn `so_tien` của từng
-# phần tử.
+# `chuyen_tien` là chỗ mới nhất so với `NhatKyPin`: một phương thức gọi phương
+# thức của chính object mình (`self.rut_tien`), rồi gọi tiếp phương thức của một
+# object `HangMuc` khác (`hang_muc_khac.nap_tien`).
 
 # %%
 class HangMuc:
