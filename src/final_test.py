@@ -27,16 +27,17 @@ import urllib.request
 REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automotive-Course-v2/main"
 
 os.makedirs("tests", exist_ok=True)
-for ten_file in ("__init__.py", "runner.py", "test_final.py", "de_thi_cau_hoi.py", "giao_dien_thi.py"):
-    duong_dan = os.path.join("tests", ten_file)
-    if not os.path.isfile(duong_dan):
-        if ten_file == "__init__.py":
-            open(duong_dan, "w").close()
-        else:
-            urllib.request.urlretrieve(f"{REPO_RAW}/tests/{ten_file}", duong_dan)
+open(os.path.join("tests", "__init__.py"), "w").close()
+for ten_file in ("runner.py", "test_final.py", "de_thi_cau_hoi.py", "giao_dien_thi.py"):
+    urllib.request.urlretrieve(f"{REPO_RAW}/tests/{ten_file}", os.path.join("tests", ten_file))
 
 if os.getcwd() not in sys.path:
     sys.path.insert(0, os.getcwd())
+
+# Xoa cache module cu neu o nay da tung chay trong phien nay - tranh dung ban
+# cu trong RAM du file tren dia da tai moi.
+for ten_module in ("tests.giao_dien_thi", "tests.de_thi_cau_hoi", "tests.test_final", "tests.runner", "tests"):
+    sys.modules.pop(ten_module, None)
 
 from tests.giao_dien_thi import chay_bai_thi
 
