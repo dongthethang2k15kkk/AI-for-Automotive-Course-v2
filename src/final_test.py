@@ -13,17 +13,13 @@
 # %% [markdown]
 # # Đề thi cuối khóa — AI Course v2 (BK-AUTO)
 #
-# Đề thi gồm 2 phần:
-#
-# 1. **20 câu trắc nghiệm** — tự chấm ngay tại chỗ, đáp án được mã hoá nên không
-#    thể mở file ra xem trước.
-# 2. **1 bài thực hành** — tối ưu hoá lịch trình quét Lidar (Merge Intervals),
-#    chấm bằng test case như các tuần trước.
+# Bấm chạy ô bên dưới để bắt đầu. Bài thi gồm 20 câu trắc nghiệm, nộp xong tự
+# chuyển sang bài viết code, chấm bằng test case như các tuần trước.
 #
 # Làm nghiêm túc — đây là cột mốc đánh giá toàn bộ 6 tuần học.
 
 # %%
-# Ô thiết lập - chạy đầu tiên.
+# Ô duy nhất - bấm chạy để vào thi.
 import os
 import sys
 import urllib.request
@@ -42,46 +38,24 @@ for ten_file in ("__init__.py", "runner.py", "test_final.py", "de_thi_cau_hoi.py
 if os.getcwd() not in sys.path:
     sys.path.insert(0, os.getcwd())
 
-from tests.test_final import kiem_tra_toan_bo_trac_nghiem, kiem_tra_gop_khung
-from tests.giao_dien_thi import bat_dau_thi, bang_diem
+from tests.giao_dien_thi import chay_bai_thi
 
-print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
+chay_bai_thi()
+
+# %% [markdown]
+# ### Nộp bài
+#
+# Kết quả chỉ nằm trong phiên làm bài. Chụp màn hình bảng điểm tổng kết gửi mentor.
+#
+# `File > Save a copy in GitHub`, chọn repo của bạn, đường dẫn `final/final_test.ipynb`.
+#
+# Chúc mừng bạn đã hoàn thành khoá AI Course v2 tại BK-AUTO!
 
 # %% [markdown]
 # ---
-# ## Phần 1 — Trắc nghiệm (20 câu)
-#
-# Bấm chọn A/B/C/D trong giao diện ở ô ngay dưới ô đáp án. Chuyển câu bằng nút
-# hoặc bằng bảng số câu, xem tiến trình ở thanh phía trên.
-
-# %% [markdown]
-# ### Làm bài
-#
-# Dict bên dưới là chỗ đáp án được ghi vào — giao diện ở ô sau nó tự cập nhật dict
-# này mỗi lần bạn chọn. Chạy ô sau để mở giao diện làm bài.
-
-# %%
-dap_an_cua_ban = {
-    1: "?", 2: "?", 3: "?", 4: "?", 5: "?",
-    6: "?", 7: "?", 8: "?", 9: "?", 10: "?",
-    11: "?", 12: "?", 13: "?", 14: "?", 15: "?",
-    16: "?", 17: "?", 18: "?", 19: "?", 20: "?",
-}
-
-# %%
-bat_dau_thi(dap_an_cua_ban)
-
-# %% [markdown]
-# Chạy ô này để lưu kết quả vào file nộp — output của ô là thứ mentor đọc được
-# khi mở lại file trên GitHub.
-
-# %%
-kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
-
-# %% [markdown]
 # ### Phụ lục — bản chữ của đề
 #
-# Bản đề đầy đủ dạng chữ, dùng khi giao diện ở trên không dựng được.
+# Dùng khi giao diện ở trên không dựng được.
 #
 # **Câu 1:** Đâu là cách khai báo một hằng số cấu hình hệ thống (theo quy ước) trong Python?
 # A. `const MAX_SPEED = 40`　B. `MAX_SPEED = 40`　C. `let MAX_SPEED = 40`　D. `final MAX_SPEED = 40`
@@ -151,73 +125,8 @@ kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
 #
 # **Câu 20:** Kỹ thuật lưu kết quả bài toán con đã giải để không tính lại trong DP gọi là gì?
 # A. Memoization　B. Recursion　C. Backtracking　D. Linear Probing
-
-# %% [markdown]
-# ---
-# ## Phần 2 — Bài thực hành: Tối ưu hoá lịch trình quét Lidar (Merge Intervals)
 #
-# ### Ngữ cảnh
-#
-# Trong quá trình thử nghiệm xe tự hành của đội BK-AUTO, cảm biến Lidar được lập
-# lịch quét môi trường theo các khung thời gian (mili-giây). Do nhận lệnh từ
-# nhiều module khác nhau (né vật cản, đọc biển báo, bám làn), các khung thời gian
-# hoạt động thường xuyên **chồng chéo**, gây lãng phí CPU và hao pin.
-#
-# Nhắc lại từ tuần 5: `sorted(ds)` trả về một list mới đã sắp xếp. Khi mỗi phần
-# tử của `ds` lại là một list như `[start, end]`, `sorted()` so sánh theo phần tử
-# đầu tiên trước, phần tử thứ hai chỉ dùng khi phần tử đầu bằng nhau — đúng thứ tự
-# `start` tăng dần mà bài này cần, không phải viết thêm `key=...`.
-
-# %%
-vi_du_khung = [[8, 10], [1, 3], [2, 6]]
-print(sorted(vi_du_khung))
-
-# %% [markdown]
-# ### Yêu cầu
-#
-# Viết hàm `gop_khung_thoi_gian(intervals)` nhận vào một list các khung thời
-# gian, mỗi khung là `[start, end]`. Gộp tất cả các khung bị chồng chéo lại với
-# nhau, trả về list lịch trình đã gộp, sắp theo `start` tăng dần.
-#
-# **Ví dụ 1:** `[[1, 3], [2, 6], [8, 10], [15, 18]]` → `[[1, 6], [8, 10], [15, 18]]`
-# (`[1,3]` và `[2,6]` chồng nhau vì `2 < 3`, gộp thành `[1,6]`).
-#
-# **Ví dụ 2:** `[[1, 4], [4, 5]]` → `[[1, 5]]` (chạm nhau tại mốc 4 vẫn tính là
-# chồng chéo).
-#
-# **Ràng buộc:** đầu vào có thể chưa được sắp xếp. Yêu cầu độ phức tạp
-# `O(n log n)`: gọi `sorted(intervals)` trước, sau đó chỉ cần duyệt một lượt để gộp.
-
-# %%
-def gop_khung_thoi_gian(intervals):
-    # TODO:
-    # 1. Nếu intervals rỗng, trả về []
-    # 2. Sắp xếp intervals theo start tăng dần
-    # 3. Duyệt qua từng khung đã sắp xếp: nếu start của khung hiện tại <= end của
-    #    khung cuối cùng trong kết quả -> gộp (cập nhật end = max của 2 end);
-    #    không thì thêm khung hiện tại như một khung mới vào kết quả
-    pass
-
-
-# %%
-kiem_tra_gop_khung(gop_khung_thoi_gian)
-
-# %% [markdown]
-# ---
-# ## Kết quả cuối cùng
-
-# %%
-diem_trac_nghiem = kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
-diem_thuc_hanh = kiem_tra_gop_khung(gop_khung_thoi_gian)
-
-bang_diem(diem_trac_nghiem, diem_thuc_hanh)
-
-# %% [markdown]
-# ### Nộp bài
-#
-# Kết quả trắc nghiệm được lưu là output của ô `kiem_tra_toan_bo_trac_nghiem` ở
-# Phần 1 — phải chạy ô đó trước khi lưu.
-#
-# `File > Save a copy in GitHub`, chọn repo của bạn, đường dẫn `final/final_test.ipynb`.
-#
-# Chúc mừng bạn đã hoàn thành khoá AI Course v2 tại BK-AUTO!
+# **Phần 2 — Bài thực hành:** viết hàm `gop_khung_thoi_gian(intervals)` nhận list các
+# khung `[start, end]`, gộp mọi khung chồng chéo, trả về lịch trình đã gộp sắp theo
+# `start` tăng dần. `[[1, 3], [2, 6], [8, 10]]` → `[[1, 6], [8, 10]]`. `[[1, 4], [4, 5]]`
+# → `[[1, 5]]`. Đầu vào có thể chưa sắp xếp, yêu cầu `O(n log n)`.
