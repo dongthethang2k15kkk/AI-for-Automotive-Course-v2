@@ -29,7 +29,6 @@ week1/ .. week6/ notebook từng tuần
 final/ đề thi cuối khóa
 tests/ bộ máy chấm dùng chung (runner.py) + test case từng tuần
 src/ mã nguồn dạng .py (jupytext) dùng để sinh lại notebook khi cần sửa
-docs/ tài liệu nội bộ cho người chỉnh sửa nội dung (kế hoạch, quy tắc biên soạn)
 
 ## Dành cho người chỉnh sửa nội dung
 

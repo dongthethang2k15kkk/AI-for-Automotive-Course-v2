@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 Thumbs.db
+
+# Tai lieu ke hoach noi bo - khong push len repo public (hoc vien doc duoc repo nay)
+docs/
