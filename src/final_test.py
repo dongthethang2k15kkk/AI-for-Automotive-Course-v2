@@ -14,12 +14,10 @@
 # # Đề thi cuối khóa — AI Course v2 (BK-AUTO)
 #
 # Bấm chạy ô bên dưới để bắt đầu. Bài thi gồm 20 câu trắc nghiệm, nộp xong tự
-# chuyển sang bài viết code, chấm bằng test case như các tuần trước.
-#
-# Làm nghiêm túc — đây là cột mốc đánh giá toàn bộ 6 tuần học.
+# chuyển sang bài viết code.
+
 
 # %%
-# Ô duy nhất - bấm chạy để vào thi.
 import os
 import sys
 import urllib.request
@@ -46,7 +44,7 @@ chay_bai_thi()
 # %% [markdown]
 # ### Nộp bài
 #
-# Kết quả chỉ nằm trong phiên làm bài. Chụp màn hình bảng điểm tổng kết gửi mentor.
+# Kết quả chỉ nằm trong phiên làm bài. Chụp màn hình bảng điểm tổng kết.
 #
 # `File > Save a copy in GitHub`, chọn repo của bạn, đường dẫn `final/final_test.ipynb`.
 #
