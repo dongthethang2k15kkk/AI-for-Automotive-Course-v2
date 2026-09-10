@@ -33,7 +33,7 @@ REPO_RAW = "https://raw.githubusercontent.com/dongthethang2k15kkk/AI-for-Automot
 if not os.path.isdir("tests"):
     os.makedirs("tests", exist_ok=True)
     open(os.path.join("tests", "__init__.py"), "w").close()
-    for ten_file in ("runner.py", "test_final.py"):
+    for ten_file in ("runner.py", "test_final.py", "de_thi_cau_hoi.py", "giao_dien_thi.py"):
         urllib.request.urlretrieve(
             f"{REPO_RAW}/tests/{ten_file}", os.path.join("tests", ten_file)
         )
@@ -42,12 +42,45 @@ if os.getcwd() not in sys.path:
     sys.path.insert(0, os.getcwd())
 
 from tests.test_final import kiem_tra_toan_bo_trac_nghiem, kiem_tra_gop_khung
+from tests.giao_dien_thi import bat_dau_thi, bang_diem
 
 print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 
 # %% [markdown]
 # ---
 # ## Phần 1 — Trắc nghiệm (20 câu)
+#
+# Bấm chọn A/B/C/D trong giao diện ở ô ngay dưới ô đáp án. Chuyển câu bằng nút
+# hoặc bằng bảng số câu, xem tiến trình ở thanh phía trên.
+
+# %% [markdown]
+# ### Làm bài
+#
+# Dict bên dưới là chỗ đáp án được ghi vào — giao diện ở ô sau nó tự cập nhật dict
+# này mỗi lần bạn chọn. Chạy ô sau để mở giao diện làm bài.
+
+# %%
+dap_an_cua_ban = {
+    1: "?", 2: "?", 3: "?", 4: "?", 5: "?",
+    6: "?", 7: "?", 8: "?", 9: "?", 10: "?",
+    11: "?", 12: "?", 13: "?", 14: "?", 15: "?",
+    16: "?", 17: "?", 18: "?", 19: "?", 20: "?",
+}
+
+# %%
+bat_dau_thi(dap_an_cua_ban)
+
+# %% [markdown]
+# Chạy ô này để lưu kết quả vào file nộp — output của ô là thứ mentor đọc được
+# khi mở lại file trên GitHub.
+
+# %%
+kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
+
+# %% [markdown]
+# ### Phụ lục — bản chữ của đề
+#
+# Bản đề đầy đủ dạng chữ, dùng khi giao diện ở trên không dựng được.
 #
 # **Câu 1:** Đâu là cách khai báo một hằng số cấu hình hệ thống (theo quy ước) trong Python?
 # A. `const MAX_SPEED = 40`　B. `MAX_SPEED = 40`　C. `let MAX_SPEED = 40`　D. `final MAX_SPEED = 40`
@@ -119,23 +152,6 @@ print("Moi truong san sang. Phien ban Python:", sys.version.split()[0])
 # A. Memoization　B. Recursion　C. Backtracking　D. Linear Probing
 
 # %% [markdown]
-# ### Điền đáp án của bạn
-#
-# Sửa giá trị bên dưới thành chữ cái bạn chọn (`"A"`, `"B"`, `"C"`, hoặc `"D"`),
-# rồi chạy ô kiểm tra ngay sau đó.
-
-# %%
-dap_an_cua_ban = {
-    1: "?", 2: "?", 3: "?", 4: "?", 5: "?",
-    6: "?", 7: "?", 8: "?", 9: "?", 10: "?",
-    11: "?", 12: "?", 13: "?", 14: "?", 15: "?",
-    16: "?", 17: "?", 18: "?", 19: "?", 20: "?",
-}
-
-# %%
-kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
-
-# %% [markdown]
 # ---
 # ## Phần 2 — Bài thực hành: Tối ưu hoá lịch trình quét Lidar (Merge Intervals)
 #
@@ -193,13 +209,13 @@ kiem_tra_gop_khung(gop_khung_thoi_gian)
 diem_trac_nghiem = kiem_tra_toan_bo_trac_nghiem(dap_an_cua_ban)
 diem_thuc_hanh = kiem_tra_gop_khung(gop_khung_thoi_gian)
 
-print("\n" + "=" * 40)
-print(f"Trac nghiem: {'DAT' if diem_trac_nghiem else 'CHUA DAT (xem lai cac cau SAI o tren)'}")
-print(f"Thuc hanh:   {'DAT' if diem_thuc_hanh else 'CHUA DAT (xem lai cac test FAIL o tren)'}")
-print("=" * 40)
+bang_diem(diem_trac_nghiem, diem_thuc_hanh)
 
 # %% [markdown]
 # ### Nộp bài
+#
+# Kết quả trắc nghiệm được lưu là output của ô `kiem_tra_toan_bo_trac_nghiem` ở
+# Phần 1 — phải chạy ô đó trước khi lưu.
 #
 # `File > Save a copy in GitHub`, chọn repo của bạn, đường dẫn `final/final_test.ipynb`.
 #
